@@ -14,7 +14,6 @@ A "minimal" config (plugin-wise) that has every feature I need. Some setups end 
 - [ ] Fix Lazy prompt non-modifiable error
 - [ ] Add sessions
 - [ ] Update the start screen with more options
-- [ ] Change theme?
 
 ### Dependencies
 -   Neovim 0.8 or greater

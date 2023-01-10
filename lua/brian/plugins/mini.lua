@@ -56,6 +56,7 @@ require('mini.starter').setup({
 })
 
 -- statusline
+require('gitsigns').setup()
 require('mini.statusline').setup({
   content = {
     active = function()
