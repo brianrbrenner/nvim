@@ -5,7 +5,7 @@ local null_ls = require("null-ls")
 -- `vim.lsp.buf.range_formatting()` are set up for every buffer in
 
 local formatting = null_ls.builtins.formatting
-local diagnstics = null_ls.builtins.diagnstics
+local diagnostics = null_ls.builtins.diagnostics
 local code_actions = null_ls.builtins.code_actions
 
 null_ls.setup({
@@ -18,7 +18,7 @@ null_ls.setup({
 			extra_filetypes = { "toml" },
 		}),
     code_actions.eslint_d,
-    diagnstics.eslint,
+    diagnostics.eslint,
 
 		-- lua
 		formatting.stylua,
