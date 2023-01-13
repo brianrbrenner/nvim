@@ -42,13 +42,10 @@ require("lazy").setup({
 	{ "kyazdani42/nvim-web-devicons" },
 	{ "akinsho/toggleterm.nvim" },
 	{ "lewis6991/gitsigns.nvim", lazy = true },
-	-- Projects
 	{
-		"ahmedkhalf/project.nvim",
+		"notjedi/nvim-rooter.lua",
 		config = function()
-			require("project_nvim").setup({
-				show_hidden = true,
-			})
+			require("nvim-rooter").setup()
 		end,
 	},
 	-- I have a separate config.mappings file where I require which-key.

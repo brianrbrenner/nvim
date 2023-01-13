@@ -99,14 +99,13 @@ end
 
 local mappings = {
   ["a"] = { toggleAlpha, "Alpha" },
-  ["b"] = { ":BufferLinePick<CR>", "Pick buffer" },
-  ["B"] = { ":FzfLua buffers<CR>", "Pick buffer from list" },
+  ["b"] = { ":lua require('fzf-lua').buffers({ winopts = { height = 0.25, width = 1, row = 1 }, preview_opts = 'hidden' })<CR>", "Pick buffer" },
   ["r"] = { ":%d+<cr>", "Remove All Text" },
   ["y"] = { ":%y+<cr>", "Yank All Text" },
   ["e"] = { ":NvimTreeToggle<cr>", "Explorer" },
   ["q"] = { ":qa!<cr>", "Exit" },
   ["f"] = {
-    ":lua require('fzf-lua').files({winopts = { split = 'belowright new' }, preview_opts = 'hidden'})<cr>",
+    ":lua require('fzf-lua').files({winopts = { height = 0.25, width = 1, row = 1}, preview_opts = 'hidden'})<cr>",
     "Find files",
   },
   ["F"] = { ":FzfLua live_grep<CR>", "Find Text" },
@@ -122,6 +121,7 @@ local mappings = {
   g = {
     name = "Git",
     g = { ":lua _LAZYGIT_TOGGLE()<cr>", "Lazygit" },
+    f = { ":FzfLua git_files<cr>", "Find tracked files"},
     j = { ":lua require 'gitsigns'.next_hunk()<cr>", "Next Hunk" },
     k = { ":lua require 'gitsigns'.prev_hunk()<cr>", "Prev Hunk" },
     l = { ":lua require 'gitsigns'.blame_line()<cr>", "Blame" },
@@ -149,11 +149,11 @@ local mappings = {
     i = { ":LspInfo<cr>", "Info" },
     m = { ":Mason<cr>", "Mason Installer" },
     j = {
-      ":lua vim.diagnostic.goto_prev",
+      ":lua vim.diagnostic.goto_prev()<cr>",
       "Next Diagnostic",
     },
     k = {
-      "vim.diagnostic.goto_next",
+      "vim.diagnostic.goto_next()<cr>",
       "Prev Diagnostic",
     },
     r = { ":lua vim.diagnostic.rename<cr>", "Rename" },

@@ -11,48 +11,50 @@ end
 local tree_cb = nvim_tree_config.nvim_tree_callback
 
 nvim_tree.setup {
-  sync_root_with_cwd = true,
-  respect_buf_cwd = true,
-  auto_reload_on_write = true,
+  update_cwd = true,
+  update_focused_file = {
+    enable = true,
+    update_cwd = true
+  },
   ignore_ft_on_setup = {
     "startify",
     "dashboard",
     "alpha",
   },
-  diagnostics = {
-    enable = false,
-    icons = {
-      hint = "",
-      info = "",
-      warning = "",
-      error = "",
-    },
-  },
-  renderer = {
-    icons = {
-      glyphs = {
-        -- default = "",
-        default = "",
-        symlink = "",
-        folder = {
-          default = "",
-          open = "",
-          empty = "",
-          empty_open = "",
-          symlink = "",
-        },
-        git = {
-          unstaged = "",
-          staged = "S",
-          unmerged = "",
-          renamed = "➜",
-          deleted = "",
-          untracked = "U",
-          ignored = "◌",
-        },
-      },
-    },
-  },
+  -- diagnostics = {
+  --   enable = false,
+  --   icons = {
+  --     hint = "",
+  --     info = "",
+  --     warning = "",
+  --     error = "",
+  --   },
+  -- },
+  -- renderer = {
+  --   icons = {
+  --     glyphs = {
+  --       -- default = "",
+  --       default = "",
+  --       symlink = "",
+  --       folder = {
+  --         default = "",
+  --         open = "",
+  --         empty = "",
+  --         empty_open = "",
+  --         symlink = "",
+  --       },
+  --       git = {
+  --         unstaged = "",
+  --         staged = "S",
+  --         unmerged = "",
+  --         renamed = "➜",
+  --         deleted = "",
+  --         untracked = "U",
+  --         ignored = "◌",
+  --       },
+  --     },
+  --   },
+  -- },
   actions = {
     use_system_clipboard = true,
     change_dir = {

@@ -59,23 +59,6 @@ autocmd("FileType", {
   group = general,
 })
 
--- Auto Change Directory
-autocmd("BufEnter", {
-  callback = function()
-    vim.cmd "silent! lcd %:p:h"
-  end,
-  group = general,
-})
-
--- Auto Save
--- autocmd("BufModifiedSet", {
---  callback = function()
---    vim.cmd "silent! w"
---  end,
---  group = general,
--- })
-
-
 -- Update file
 autocmd("FocusGained", {
   callback = function()
