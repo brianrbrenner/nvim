@@ -36,7 +36,7 @@ require('mini.pairs').setup()
 -- tabline
 require('mini.tabline').setup({
   -- Whether to show file icons (requires 'nvim-tree/nvim-web-devicons')
-  show_icons = true,
+  show_icons = false,
 
   -- Whether to set Vim's settings for tabline (make it always shown and
   -- allow hidden buffers)
