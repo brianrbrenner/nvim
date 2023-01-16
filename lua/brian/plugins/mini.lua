@@ -19,7 +19,7 @@ lsp_completion = {
   },
   window = {
     info = { border = 'single' },
-    signature = { border = 'none' },
+    signature = { border = 'single' },
   },
 })
 
