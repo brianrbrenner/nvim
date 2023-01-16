@@ -1,5 +1,5 @@
 require("catppuccin").setup({
-	flavor = "catppuccin-macchiato",
+	flavor = "catppuccin-mocha",
 	transparent_background = false,
 	term_colors = false,
 
@@ -30,7 +30,11 @@ require("catppuccin").setup({
 	},
 
 	integrations = {
-		-- For various plugins integrations see https://github.com/catppuccin/nvim#integrations
+		treesitter = true,
+		gitsigns = true,
+		nvimtree = true,
+		which_key = true,
+    mini = true,
 	},
 
 	color_overrides = {},
