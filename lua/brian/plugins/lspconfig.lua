@@ -7,7 +7,7 @@ local mason_lspconfig = require("mason-lspconfig")
 -- - sumneko_lua for Lua
 -- - typescript-language-server for Typescript and Javascript
 mason_lspconfig.setup({
-	ensure_installed = { "sumneko_lua", "tsserver", "clangd", "pyright" },
+	ensure_installed = { "sumneko_lua", "tsserver", "clangd", "pyright", "rust_analyzer" },
 })
 
 local lspconfig = require("lspconfig")
@@ -116,10 +116,9 @@ require("mason-lspconfig").setup_handlers({
 	end,
 	-- C/C++ (clangd) =============================================================
 	-- Install as system package (`sudo pacman -S llvm clang`)
+	-- default capabilities are OK for now
 	["clangd"] = function()
-		lspconfig.clangd.setup(vim.tbl_deep_extend("force", lsp_options, {
-			-- capabilities = { offsetEncoding = { "utf-8" } },
-		}))
+		lspconfig.clangd.setup({})
 	end,
 	-- Typescript (tsserver) ======================================================
 	["tsserver"] = function()

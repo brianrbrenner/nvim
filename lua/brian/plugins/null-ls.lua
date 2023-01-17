@@ -23,8 +23,7 @@ null_ls.setup({
 		-- lua
 		formatting.stylua,
 
-    --c/c++
-    formatting.clang_format,
+    -- clangd handles formatting and tidy
 
     --CMAKE
     formatting.cmake_format
