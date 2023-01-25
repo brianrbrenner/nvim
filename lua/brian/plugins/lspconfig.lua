@@ -118,7 +118,7 @@ require("mason-lspconfig").setup_handlers({
 	-- Install as system package (`sudo pacman -S llvm clang`)
 	-- default capabilities are OK for now
 	["clangd"] = function()
-		lspconfig.clangd.setup({})
+		lspconfig.clangd.setup(vim.tbl_deep_extend("force", lsp_options, {}))
 	end,
 	-- Typescript (tsserver) ======================================================
 	["tsserver"] = function()

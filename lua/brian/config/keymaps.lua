@@ -74,6 +74,8 @@ local keymaps = {
 		["C-l"] = "<C-\\><C-n><C-W>l",
 		-- exit other modes
 		["jk"] = "<C-\\><C-n>",
+		-- exit other modes
+		["ne"] = "<C-\\><C-n>",
 	},
 	visual_mode = {
 		-- Better Paste
