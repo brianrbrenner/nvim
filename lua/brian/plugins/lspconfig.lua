@@ -59,6 +59,7 @@ vim.diagnostic.config(diagnostic_opts)
 
 -- server configs with Mason
 local lsp_options = { on_attach = on_attach_custom }
+
 require("mason-lspconfig").setup_handlers({
 	function(server_name)
 		lspconfig[server_name].setup(lsp_options)

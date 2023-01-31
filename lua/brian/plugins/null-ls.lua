@@ -9,6 +9,9 @@ local diagnostics = null_ls.builtins.diagnostics
 local code_actions = null_ls.builtins.code_actions
 
 null_ls.setup({
+	on_init = function(new_client, _)
+		new_client.offset_encoding = "utf-8"
+	end,
 	sources = {
 		-- py
 		formatting.black,
@@ -17,16 +20,16 @@ null_ls.setup({
 		formatting.prettier.with({
 			extra_filetypes = { "toml" },
 		}),
-    code_actions.eslint_d,
-    diagnostics.eslint,
+		code_actions.eslint_d,
+		diagnostics.eslint,
 
 		-- lua
 		formatting.stylua,
-    
-    --c/c++
-    formatting.clang_format,
 
-    --CMAKE
-    formatting.cmake_format
+		--c/c++
+		formatting.clang_format,
+
+		--CMAKE
+		formatting.cmake_format,
 	},
 })
