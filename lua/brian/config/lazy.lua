@@ -46,20 +46,23 @@ require("lazy").setup({
 	-- end,
 	-- },
 
-	-- {
-	-- 	"catppuccin/nvim",
-	-- 	lazy = false, -- make sure we load this during startup if it is your main colorscheme
-	-- 	priority = 1000, -- make sure to load this before all the other start plugins
-	-- },
 	{
-		"AlexvZyl/nordic.nvim",
+		"catppuccin/nvim",
 		lazy = false, -- make sure we load this during startup if it is your main colorscheme
 		priority = 1000, -- make sure to load this before all the other start plugins
 		config = function()
-			-- load the colorscheme here
-			vim.cmd([[colorscheme nordic]])
+			vim.cmd([[colorscheme catppuccin]])
 		end,
 	},
+	-- {
+	-- 	"AlexvZyl/nordic.nvim",
+	-- 	lazy = false, -- make sure we load this during startup if it is your main colorscheme
+	-- 	priority = 1000, -- make sure to load this before all the other start plugins
+	-- 	config = function()
+	-- 		-- load the colorscheme here
+	-- 		vim.cmd([[colorscheme nordic]])
+	-- 	end,
+	-- },
 
 	-- UTILS
 	{ "nvim-lua/plenary.nvim" },
