@@ -4,6 +4,19 @@ require("catppuccin").setup({
 	transparent_background = false,
 	no_italic = false,
 	no_bold = false,
+	styles = {
+		comments = { "italic" },
+		conditionals = {},
+		loops = {},
+		functions = {},
+		keywords = {},
+		strings = {},
+		variables = {},
+		numbers = {},
+		booleans = {},
+		properties = {},
+		types = {},
+	},
 	color_overrides = {
 		mocha = {
 			base = "#000000",
@@ -12,7 +25,7 @@ require("catppuccin").setup({
 		},
 	},
 	integrations = {
-		cmp = true,
+		cmp = false,
 		gitsigns = true,
 		nvimtree = true,
 		telescope = false,

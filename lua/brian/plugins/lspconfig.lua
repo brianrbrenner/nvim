@@ -25,12 +25,9 @@ local on_attach_custom = function(client, bufnr)
 	local function buf_set_option(name, value)
 		vim.api.nvim_buf_set_option(bufnr, name, value)
 	end
-
-	buf_set_option("omnifunc", "v:lua.MiniCompletion.completefunc_lsp")
-
+	client.default_capabilities = require("cmp_nvim_lsp").default_capabilities()
 	-- Mappings are created globally for simplicity
 	lsp_keymaps(bufnr)
-
 	-- Currently all formatting is handled with 'null-ls' plugin
 	if vim.fn.has("nvim-0.8") == 1 then
 		client.server_capabilities.documentFormattingProvider = false
