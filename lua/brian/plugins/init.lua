@@ -1,3 +1,4 @@
+require("brian.plugins.cmp")
 require("brian.plugins.catppuccin")
 require("brian.plugins.mini")
 require("brian.plugins.whichkey")

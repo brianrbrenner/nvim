@@ -1,7 +1,4 @@
-local cmp_status_ok, cmp = pcall(require, "cmp")
-if not cmp_status_ok then
-	return
-end
+local cmp = require("cmp")
 
 cmp.setup({
 	enabled = function()
@@ -51,6 +48,7 @@ cmp.setup({
 	sources = {
 		{ name = "nvim_lsp" },
 		{ name = "nvim_lua" },
+		{ name = "nvim_lsp_signature_help" },
 		{ name = "luasnip" },
 		{ name = "buffer" },
 		{ name = "path" },
