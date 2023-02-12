@@ -26,6 +26,17 @@ local on_attach_custom = function(client, bufnr)
 		vim.api.nvim_buf_set_option(bufnr, name, value)
 	end
 	client.default_capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+	-- signatures
+	require("lsp_signature").on_attach({
+		floating_window = true,
+		hint_enable = false,
+		doc_lines = 0,
+		handler_opts = {
+			border = "none",
+		},
+	}, bufnr)
+
 	-- Mappings are created globally for simplicity
 	lsp_keymaps(bufnr)
 	-- Currently all formatting is handled with 'null-ls' plugin
@@ -53,7 +64,6 @@ local diagnostic_opts = {
 }
 
 vim.diagnostic.config(diagnostic_opts)
-
 -- server configs with Mason
 local lsp_options = { on_attach = on_attach_custom }
 

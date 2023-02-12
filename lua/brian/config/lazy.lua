@@ -45,6 +45,7 @@ require("lazy").setup({
 	{ "hrsh7th/cmp-path" },
 	{ "hrsh7th/cmp-cmdline" },
 	{ "hrsh7th/nvim-cmp" },
+	{ "ray-x/lsp_signature.nvim" },
 
 	-- FZF
 	{ "ibhagwan/fzf-lua" },
