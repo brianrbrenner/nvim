@@ -52,6 +52,7 @@ local keymaps = {
 		["<"] = "<<",
 		[">"] = ">>",
 
+
 		-- Move text up and down
 		["<A-j>"] = ":m .+1<CR>==",
 		["<A-k>"] = ":m .-2<CR>==",

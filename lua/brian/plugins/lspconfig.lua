@@ -4,10 +4,10 @@ local mason_lspconfig = require("mason-lspconfig")
 -- Currently used language servers:
 -- - clangd for C/C++
 -- - pyright for Python
--- - sumneko_lua for Lua
+-- - lua_ls for Lua
 -- - typescript-language-server for Typescript and Javascript
 mason_lspconfig.setup({
-	ensure_installed = { "sumneko_lua", "tsserver", "clangd", "pyright", "rust_analyzer" },
+	ensure_installed = { "lua_ls", "tsserver", "clangd", "pyright", "rust_analyzer" },
 })
 
 local lspconfig = require("lspconfig")
@@ -76,13 +76,13 @@ require("mason-lspconfig").setup_handlers({
 	["pyright"] = function()
 		lspconfig.pyright.setup(vim.tbl_deep_extend("force", lsp_options, {}))
 	end,
-	-- Lua (sumneko_lua) ==========================================================
-	["sumneko_lua"] = function()
-		lspconfig.sumneko_lua.setup(vim.tbl_deep_extend("force", lsp_options, {
+	-- Lua (lua_ls) ==========================================================
+	["lua_ls"] = function()
+		lspconfig.lua_ls.setup(vim.tbl_deep_extend("force", lsp_options, {
 			handlers = {
 				-- Don't open quickfix list in case of multiple definitions. At the
 				-- moment, this conflicts the `a = function()` code style because
-				-- sumneko_lua treats both `a` and `function()` to be definitions of `a`.
+				-- lua_ls treats both `a` and `function()` to be definitions of `a`.
 				["textDocument/definition"] = function(_, result, ctx, _)
 					-- Adapted from source:
 					-- https://github.com/neovim/neovim/blob/master/runtime/lua/vim/lsp/handlers.lua#L341-L366
