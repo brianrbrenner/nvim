@@ -150,11 +150,11 @@ local mappings = {
     m = { ":Mason<cr>", "Mason Installer" },
     j = {
       ":lua vim.diagnostic.goto_prev()<cr>",
-      "Next Diagnostic",
+      "Prev Diagnostic",
     },
     k = {
-      "vim.diagnostic.goto_next()<cr>",
-      "Prev Diagnostic",
+      ":lua vim.diagnostic.goto_next()<cr>",
+      "Next Diagnostic",
     },
     r = { ":lua vim.diagnostic.rename<cr>", "Rename" },
     R = { ":FzfLua lsp_references<cr>", "References" },
