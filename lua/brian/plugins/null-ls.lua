@@ -31,5 +31,8 @@ null_ls.setup({
 
 		--CMAKE
 		formatting.cmake_format,
+
+    -- RUST
+    formatting.rustfmt,
 	},
 })
