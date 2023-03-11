@@ -24,6 +24,13 @@ require("lazy").setup({
 		end,
 	},
 	-- UTILS
+	{
+		"NvChad/nvim-colorizer.lua",
+		config = function()
+			require("colorizer").setup()
+		end,
+    lazy = true,
+	},
 	{ "nvim-lua/plenary.nvim" },
 	{ "echasnovski/mini.nvim" },
 	{ "kyazdani42/nvim-web-devicons" },

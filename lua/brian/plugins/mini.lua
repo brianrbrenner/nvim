@@ -1,5 +1,7 @@
 require('mini.ai').setup()
 
+require('mini.bufremove').setup()
+
 -- comments
 require('mini.comment').setup()
 
