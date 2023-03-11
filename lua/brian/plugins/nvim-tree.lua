@@ -16,11 +16,11 @@ nvim_tree.setup {
     enable = true,
     update_cwd = true
   },
-  ignore_ft_on_setup = {
-    "startify",
-    "dashboard",
-    "alpha",
-  },
+  -- ignore_ft_on_setup = { i believe this is deprecated
+  --   "startify",
+  --   "dashboard",
+  --   "alpha",
+  -- },
   -- diagnostics = {
   --   enable = false,
   --   icons = {
