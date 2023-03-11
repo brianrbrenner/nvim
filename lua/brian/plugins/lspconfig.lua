@@ -26,7 +26,7 @@ local on_attach_custom = function(client, bufnr)
 		vim.api.nvim_buf_set_option(bufnr, name, value)
 	end
 	client.default_capabilities = require("cmp_nvim_lsp").default_capabilities()
-  client.server_capabilities.offsetEncoding = { "utf-8" }
+  client.server_capabilities.offsetEncoding = { "utf-16" }
 
 	-- signatures
 	require("lsp_signature").on_attach({
