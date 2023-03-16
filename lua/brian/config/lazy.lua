@@ -53,6 +53,7 @@ require("lazy").setup({
 	{ "hrsh7th/cmp-cmdline" },
 	{ "hrsh7th/nvim-cmp" },
 	{ "ray-x/lsp_signature.nvim" },
+  { "github/copilot.vim" },
 
 	-- FZF
 	{ "ibhagwan/fzf-lua" },
