@@ -29,7 +29,7 @@ require("lazy").setup({
 		config = function()
 			require("colorizer").setup()
 		end,
-    lazy = true,
+		lazy = true,
 	},
 	{ "nvim-lua/plenary.nvim" },
 	{ "echasnovski/mini.nvim" },
@@ -42,6 +42,7 @@ require("lazy").setup({
 			require("nvim-rooter").setup()
 		end,
 	},
+	{ "ojroques/nvim-bufdel" },
 	-- I have a separate config.mappings file where I require which-key.
 	-- With lazy the plugin will be automatically loaded when it is required somewhere
 	{ "folke/which-key.nvim", lazy = true },
@@ -53,7 +54,24 @@ require("lazy").setup({
 	{ "hrsh7th/cmp-cmdline" },
 	{ "hrsh7th/nvim-cmp" },
 	{ "ray-x/lsp_signature.nvim" },
-  { "github/copilot.vim" },
+	{
+		"zbirenbaum/copilot.lua",
+		cmd = "Copilot",
+		event = "InsertEnter",
+		config = function()
+			require("copilot").setup()
+		end,
+	},
+	-- SNIPS
+	{
+		"L3MON4D3/LuaSnip",
+		-- follow latest release.
+		version = "<CurrentMajor>.*",
+		-- install jsregexp (optional!).
+		build = "make install_jsregexp",
+	},
+	{ "saadparwaiz1/cmp_luasnip" },
+	{ "rafamadriz/friendly-snippets" },
 
 	-- FZF
 	{ "ibhagwan/fzf-lua" },

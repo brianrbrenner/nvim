@@ -35,7 +35,7 @@ local keymaps = {
 		-- Move Next Window
 		["<Leader>w"] = "<C-w>w",
 		-- Close Window
-		["Q"] = ":bdelete!<CR>",
+		["Q"] = ":BufDel!<CR>",
 		-- Center screen on up and down half page
 		["<C-u>"] = "<C-u>zz",
 		["<C-d>"] = "<C-d>zz",
