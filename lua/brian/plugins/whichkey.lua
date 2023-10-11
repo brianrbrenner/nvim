@@ -100,24 +100,17 @@ end
 local mappings = {
   ["a"] = { toggleAlpha, "Alpha" },
   ["b"] = { ":lua require('fzf-lua').buffers({ winopts = { height = 0.25, width = 1, row = 1 }, preview_opts = 'hidden' })<CR>", "Pick buffer" },
+  ["gb"] = { ":BufferLinePick<CR>" },
   ["r"] = { ":%d+<cr>", "Remove All Text" },
   ["y"] = { ":%y+<cr>", "Yank All Text" },
-  ["e"] = { ":NvimTreeToggle<cr>", "Explorer" },
+  ["e"] = { ":NvimTreeToggle<CR>", "Explorer" },
   ["q"] = { ":qa!<cr>", "Exit" },
-  ["f"] = {
-    ":lua require('fzf-lua').files({winopts = { height = 0.25, width = 1, row = 1}, preview_opts = 'hidden'})<cr>",
-    "Find files",
-  },
+  ["f"] = { ":lua require('fzf-lua').files()<cr>", "Find files" },
+  -- ["f"] = {
+  --   ":lua require('fzf-lua').files({winopts = { height = 0.25, width = 1, row = 1}, preview_opts = 'hidden'})<cr>",
+  --   "Find files",
+  -- },
   ["F"] = { ":FzfLua live_grep<CR>", "Find Text" },
-  ["T"] = { ":lua MiniTrailspace.trim()<cr>", "Trim whitespace" },
-  p = {
-    name = "Packer",
-    c = { ":PackerCompile<cr>", "Compile" },
-    C = { ":PackerClean<cr>", "Clean" },
-    i = { ":PackerInstall<cr>", "Install" },
-    s = { ":PackerSync<cr>", "Sync" },
-    S = { ":PackerStatus<cr>", "Status" },
-  },
   g = {
     name = "Git",
     g = { ":lua _LAZYGIT_TOGGLE()<cr>", "Lazygit" },
