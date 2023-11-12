@@ -1,5 +1,6 @@
 require("brian.plugins.alpha")
-require("brian.plugins.catppuccin")
+-- require("brian.plugins.catppuccin")
+require("brian.plugins.kanagawa")
 require("brian.plugins.cmp")
 require("brian.plugins.whichkey")
 require("brian.plugins.nvim-tree")
