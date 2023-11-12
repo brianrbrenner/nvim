@@ -20,73 +20,109 @@ require("lazy").setup({
 	-- 	lazy = false, -- make sure we load this during startup if it is your main colorscheme
 	-- 	priority = 1000, -- make sure to load this before all the other start plugins
 	-- 	config = function()
- --      require("catppuccin").setup {
- --        color_overrides = {
- --          mocha = {
- --            base = "#000000",
- --            mantle = "#000000",
- --            crust = "#000000",
- --          }
- --        }
- --      }
- --      vim.cmd[[colorscheme catppuccin-mocha]]
+	--      require("catppuccin").setup {
+	--        color_overrides = {
+	--          mocha = {
+	--            base = "#000000",
+	--            mantle = "#000000",
+	--            crust = "#000000",
+	--          }
+	--        }
+	--      }
+	--      vim.cmd[[colorscheme catppuccin-mocha]]
 	-- 	end,
 	-- },
-  {
-    "rebelot/kanagawa.nvim",
-    priority = 1000,
-  },
-  {
-    'goolord/alpha-nvim'
-  },
-  -- BUFFERS
-  {
-    'akinsho/bufferline.nvim', version = "*",
-    dependencies = 'nvim-tree/nvim-web-devicons'
-  },
-  -- LUALINE
-  {
-    'nvim-lualine/lualine.nvim',
-  },
-  -- COMMENTS
-  {
-    'numToStr/Comment.nvim',
-    config = function ()
-      require('Comment').setup()
-    end,
-    lazy = false,
-  },
-  -- INDENT
-  {
-    'echasnovski/mini.indentscope',
-    config = function ()
-      require('mini.indentscope').setup()
-    end,
-    version = "*"
-  },
-  -- FLASH
-  {
-    'folke/flash.nvim',
-    event = 'VeryLazy',
-    ---@type Flash.Config
-    opts = {},
-    --- stylua: ignore
-    keys = {
-      { "s", mode = { 'n', 'o', 'x' }, function() require('flash').jump() end, desc = "Flash" },
-      { "S", mode = { 'n', 'o', 'x' }, function() require('flash').treesitter() end, desc = "Flash Treesitter" },
-      { "r", mode = "o", function() require('flash').remote() end, desc = "Remote Flash" },
-      { "R", mode = { "o", "x" }, function() require('flash').treesitter_search() end, desc = "Treesitter Search" },
-      { "<c-s>", mode = { "c" }, function() require('flash').toggle() end, desc = 'Toggle Flash Search'},
-    },
-  },
-  -- AUTOPAIRS
-  {
-    "windwp/nvim-autopairs",
-    config = function ()
-      require('nvim-autopairs').setup()
-    end
-  },
-  -- COLORIZER
+	{
+		"rebelot/kanagawa.nvim",
+		priority = 1000,
+	},
+	{
+		"goolord/alpha-nvim",
+	},
+	-- BUFFERS
+	{
+		"akinsho/bufferline.nvim",
+		version = "*",
+		dependencies = "nvim-tree/nvim-web-devicons",
+	},
+	-- LUALINE
+	{
+		"nvim-lualine/lualine.nvim",
+	},
+	-- COMMENTS
+	{
+		"numToStr/Comment.nvim",
+		config = function()
+			require("Comment").setup()
+		end,
+		lazy = false,
+	},
+	-- INDENT
+	{
+		"echasnovski/mini.indentscope",
+		config = function()
+			require("mini.indentscope").setup()
+		end,
+		version = "*",
+	},
+	-- FLASH
+	{
+		"folke/flash.nvim",
+		event = "VeryLazy",
+		---@type Flash.Config
+		opts = {},
+		--- stylua: ignore
+		keys = {
+			{
+				"s",
+				mode = { "n", "o", "x" },
+				function()
+					require("flash").jump()
+				end,
+				desc = "Flash",
+			},
+			{
+				"S",
+				mode = { "n", "o", "x" },
+				function()
+					require("flash").treesitter()
+				end,
+				desc = "Flash Treesitter",
+			},
+			{
+				"r",
+				mode = "o",
+				function()
+					require("flash").remote()
+				end,
+				desc = "Remote Flash",
+			},
+			{
+				"R",
+				mode = { "o", "x" },
+				function()
+					require("flash").treesitter_search()
+				end,
+				desc = "Treesitter Search",
+			},
+			{
+				"<c-s>",
+				mode = { "c" },
+				function()
+					require("flash").toggle()
+				end,
+				desc = "Toggle Flash Search",
+			},
+		},
+	},
+	-- AUTOPAIRS
+	{
+		"windwp/nvim-autopairs",
+		config = function()
+			require("nvim-autopairs").setup()
+		end,
+	},
+	-- COLORIZER
 	{
 		"NvChad/nvim-colorizer.lua",
 		config = function()
@@ -94,13 +130,13 @@ require("lazy").setup({
 		end,
 		lazy = true,
 	},
-  -- LIB
+	-- LIB
 	{ "nvim-lua/plenary.nvim" },
-  -- TERMINAL
+	-- TERMINAL
 	{ "akinsho/toggleterm.nvim" },
-  -- GIT
+	-- GIT
 	{ "lewis6991/gitsigns.nvim", lazy = true },
-  -- GET ROOT
+	-- GET ROOT
 	{
 		"notjedi/nvim-rooter.lua",
 		config = function()
@@ -143,7 +179,8 @@ require("lazy").setup({
 	{ "williamboman/mason.nvim", lazy = true },
 	{ "neovim/nvim-lspconfig" },
 	{ "williamboman/mason-lspconfig.nvim" },
-	{ "jose-elias-alvarez/null-ls.nvim" },
+	{ "folke/neodev.nvim", opts = {} },
+	{ "stevearc/conform.nvim", opts = {} },
 	-- { "simrat39/rust-tools.nvim" },
 
 	-- Treesitter
@@ -151,11 +188,11 @@ require("lazy").setup({
 
 	{ "kyazdani42/nvim-tree.lua", lazy = true },
 
-  -- HIGHLIGHT UNDER WORD
-  {
-    'tzachar/local-highlight.nvim',
-    config = function ()
-      require('local-highlight').setup()
-    end
-  }
+	-- HIGHLIGHT UNDER WORD
+	{
+		"tzachar/local-highlight.nvim",
+		config = function()
+			require("local-highlight").setup()
+		end,
+	},
 })

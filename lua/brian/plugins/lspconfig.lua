@@ -26,7 +26,7 @@ local on_attach_custom = function(client, bufnr)
 		vim.api.nvim_buf_set_option(bufnr, name, value)
 	end
 	client.default_capabilities = require("cmp_nvim_lsp").default_capabilities()
-  client.server_capabilities.offsetEncoding = { "utf-16" }
+  client.server_capabilities.offsetEncoding = { "utf-8" }
 
 	-- signatures
 	require("lsp_signature").on_attach({
@@ -40,7 +40,7 @@ local on_attach_custom = function(client, bufnr)
 
 	-- Mappings are created globally for simplicity
 	lsp_keymaps(bufnr)
-	-- Currently all formatting is handled with 'null-ls' plugin
+	-- Currently all formatting is handled with 'conform' plugin
 	if vim.fn.has("nvim-0.8") == 1 then
 		client.server_capabilities.documentFormattingProvider = false
 		client.server_capabilities.documentRangeFormattingProvider = false
