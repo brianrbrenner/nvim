@@ -14,28 +14,17 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = " "
 
 require("lazy").setup({
-	-- the colorscheme should be available when starting Neovim
-	-- {
-	-- 	"catppuccin/nvim",
-	-- 	lazy = false, -- make sure we load this during startup if it is your main colorscheme
-	-- 	priority = 1000, -- make sure to load this before all the other start plugins
-	-- 	config = function()
-	--      require("catppuccin").setup {
-	--        color_overrides = {
-	--          mocha = {
-	--            base = "#000000",
-	--            mantle = "#000000",
-	--            crust = "#000000",
-	--          }
-	--        }
-	--      }
-	--      vim.cmd[[colorscheme catppuccin-mocha]]
-	-- 	end,
-	-- },
-	{
-		"rebelot/kanagawa.nvim",
-		priority = 1000,
-	},
+  {
+    "norcalli/nvim-colorizer.lua",
+    lazy = true,
+  },
+  {
+    "tjdevries/colorbuddy.nvim",
+    priority = 1000,
+  },
+  {
+    "tjdevries/gruvbuddy.nvim",
+  },
 	{
 		"goolord/alpha-nvim",
 	},
