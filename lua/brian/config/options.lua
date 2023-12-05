@@ -64,6 +64,8 @@ local global = {
 vim.opt.shortmess:append "A" -- Disable asking when editing file with swapfile.
 vim.opt.whichwrap:append "<,>,[,],h,l"
 vim.opt.iskeyword:append "-"
+vim.opt.listchars = { tab = "» ", eol = "↵", space = "·" }
+vim.opt.list = true
 
 for k, v in pairs(options) do
   vim.opt[k] = v

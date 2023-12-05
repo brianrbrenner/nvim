@@ -1,4 +1,3 @@
-require("brian.plugins.colorscheme")
 require("brian.plugins.alpha")
 -- require("brian.plugins.kanagawa")
 require("brian.plugins.cmp")

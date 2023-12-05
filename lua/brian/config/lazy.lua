@@ -12,20 +12,17 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 vim.g.mapleader = " "
+vim.opt.list = true
 
 require("lazy").setup({
-  {
-    "norcalli/nvim-colorizer.lua",
-    lazy = true,
-  },
-  {
-    "tjdevries/colorbuddy.nvim",
-    priority = 1000,
-  },
-  {
-    "tjdevries/gruvbuddy.nvim",
-  },
 	{
+		"brianrbrenner/nvim-jellybeans",
+		dependencies = "rktjmp/lush.nvim",
+		config = function()
+			vim.cmd([[colorscheme jellybeans]])
+		end,
+	},
+  {
 		"goolord/alpha-nvim",
 	},
 	-- BUFFERS
@@ -45,14 +42,6 @@ require("lazy").setup({
 			require("Comment").setup()
 		end,
 		lazy = false,
-	},
-	-- INDENT
-	{
-		"echasnovski/mini.indentscope",
-		config = function()
-			require("mini.indentscope").setup()
-		end,
-		version = "*",
 	},
 	-- FLASH
 	{
@@ -117,7 +106,7 @@ require("lazy").setup({
 		config = function()
 			require("colorizer").setup()
 		end,
-		lazy = true,
+		lazy = false,
 	},
 	-- LIB
 	{ "nvim-lua/plenary.nvim" },
