@@ -100,10 +100,14 @@ end
 local mappings = {
 	["a"] = { toggleAlpha, "Alpha" },
 	["b"] = {
-		":lua require('fzf-lua').buffers({ winopts = { height = 0.25, width = 1, row = 1 }, preview_opts = 'hidden' })<CR>",
-		"Pick buffer",
+		':lua require("buffer_manager.ui").toggle_quick_menu()<CR>',
+		"Buffer Manager",
 	},
-	["gb"] = { ":BufferLinePick<CR>" },
+	B = {
+		name = "Buffer list",
+		s = { ":lua require'buffer_manager.ui'.save_menu_to_file('bm')<CR>", "Save buffer list" },
+		l = { ":lua require'buffer_manager.ui'.load_menu_from_file('bm')<CR>", "Load buffer list" },
+	},
 	["r"] = { ":%d+<cr>", "Remove All Text" },
 	["y"] = { ":%y+<cr>", "Yank All Text" },
 	["e"] = { ":NvimTreeToggle<CR>", "Explorer" },

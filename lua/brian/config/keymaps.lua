@@ -52,20 +52,12 @@ local keymaps = {
 		["<"] = "<<",
 		[">"] = ">>",
 
-
-		-- Move text up and down
-		["<A-j>"] = ":m .+1<CR>==",
-		["<A-k>"] = ":m .-2<CR>==",
-
     -- trim whitespace
 	},
 	insert_mode = {
 		-- exit other mode
 		["jk"] = "<Esc>",
 		["kj"] = "<Esc>",
-		-- Move text up and down
-		["<A-j>"] = "<Esc>:m .+1<CR>==gi",
-		["<A-k>"] = "<Esc>:m .-2<CR>==gi",
 	},
 	terminal_mode = {
 		-- Terminal Navigation
@@ -76,7 +68,6 @@ local keymaps = {
 		-- exit other modes
 		["jk"] = "<C-\\><C-n>",
 		-- exit other modes
-		["ne"] = "<C-\\><C-n>",
 	},
 	visual_mode = {
 		-- Better Paste
@@ -87,13 +78,11 @@ local keymaps = {
 		["<"] = "<gv",
 		[">"] = ">gv",
 		-- Move text up and down
-		["<A-j>"] = ":m '>+1<CR>gv=gv",
-		["<A-k>"] = ":m '<-2<CR>gv=gv",
+    ["<A-J>"] = ":m '>+1<CR>gv=gv",
+    ["<A-K>"] = ":m '<-2<CR>gv=gv",
 	},
 	visual_block_mode = {
 		-- Move text up and down
-		["<A-j>"] = ":m '>+1<CR>gv=gv",
-		["<A-k>"] = ":m '<-2<CR>gv=gv",
 		["<leader>p"] = '"_dP',
 	},
 

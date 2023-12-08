@@ -22,19 +22,16 @@ require("lazy").setup({
 			vim.cmd([[colorscheme jellybeans]])
 		end,
 	},
-  {
+	{
 		"goolord/alpha-nvim",
 	},
-	-- BUFFERS
+  -- STATUS-LINE
 	{
-		"akinsho/bufferline.nvim",
-		version = "*",
-		dependencies = "nvim-tree/nvim-web-devicons",
+		"strash/everybody-wants-that-line.nvim",
 	},
-	-- LUALINE
-	{
-		"nvim-lualine/lualine.nvim",
-	},
+  {
+    "j-morano/buffer_manager.nvim"
+  },
 	-- COMMENTS
 	{
 		"numToStr/Comment.nvim",
@@ -104,7 +101,7 @@ require("lazy").setup({
 	{
 		"NvChad/nvim-colorizer.lua",
 		config = function()
-			require("colorizer").setup()
+			require("colorizer").setup({})
 		end,
 		lazy = false,
 	},
