@@ -9,7 +9,7 @@ local options = {
 	mouse = "a", -- allow the mouse to be used in neovim
 	pumheight = 8, -- pop up menu height
 	pumblend = 10, -- transparency of pop-up menu
-	showmode = true, -- we don't need to see things like -- INSERT -- anymore
+	showmode = false, -- we don't need to see things like -- INSERT -- anymore
 	smartcase = true, -- smart case
 	smartindent = true, -- make indenting smarter again
 	splitbelow = true, -- force all horizontal splits to go below current window
@@ -67,8 +67,8 @@ vim.opt.iskeyword:append("-")
 -- Set the char for the indent line
 vim.g.indentline_char = '|'
 
-vim.opt.listchars = { tab = "» ", eol = "↵" }
-vim.opt.list = true
+-- vim.opt.listchars = { tab = "» ", eol = "↵" }
+-- vim.opt.list = true
 
 -- I am using tab and leadmultispace in listchars to display the indent line. The chars for tab and
 -- leadmultispace should be updated based on whether the indentation has been changed.

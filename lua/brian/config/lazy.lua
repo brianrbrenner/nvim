@@ -12,7 +12,6 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 vim.g.mapleader = " "
-vim.opt.list = true
 
 require("lazy").setup({
 	{
@@ -25,13 +24,9 @@ require("lazy").setup({
 	{
 		"goolord/alpha-nvim",
 	},
-  -- STATUS-LINE
 	{
-		"strash/everybody-wants-that-line.nvim",
+		"j-morano/buffer_manager.nvim",
 	},
-  {
-    "j-morano/buffer_manager.nvim"
-  },
 	-- COMMENTS
 	{
 		"numToStr/Comment.nvim",
@@ -56,38 +51,6 @@ require("lazy").setup({
 				end,
 				desc = "Flash",
 			},
-			{
-				"S",
-				mode = { "n", "o", "x" },
-				function()
-					require("flash").treesitter()
-				end,
-				desc = "Flash Treesitter",
-			},
-			{
-				"r",
-				mode = "o",
-				function()
-					require("flash").remote()
-				end,
-				desc = "Remote Flash",
-			},
-			{
-				"R",
-				mode = { "o", "x" },
-				function()
-					require("flash").treesitter_search()
-				end,
-				desc = "Treesitter Search",
-			},
-			{
-				"<c-s>",
-				mode = { "c" },
-				function()
-					require("flash").toggle()
-				end,
-				desc = "Toggle Flash Search",
-			},
 		},
 	},
 	-- AUTOPAIRS
@@ -107,10 +70,13 @@ require("lazy").setup({
 	},
 	-- LIB
 	{ "nvim-lua/plenary.nvim" },
-	-- TERMINAL
-	{ "akinsho/toggleterm.nvim" },
 	-- GIT
-	{ "lewis6991/gitsigns.nvim", lazy = true },
+	{
+		"lewis6991/gitsigns.nvim",
+		config = function()
+			require("gitsigns").setup()
+		end,
+	},
 	-- GET ROOT
 	{
 		"notjedi/nvim-rooter.lua",
