@@ -3,11 +3,11 @@ local mason_lspconfig = require("mason-lspconfig")
 
 -- Currently used language servers:
 -- - clangd for C/C++
--- - pyright for Python
 -- - lua_ls for Lua
 -- - typescript-language-server for Typescript and Javascript
+-- - rust_analyzer for.. well yeah Rust
 mason_lspconfig.setup({
-	ensure_installed = { "lua_ls", "tsserver", "clangd", "pyright", "rust_analyzer" },
+	ensure_installed = { "lua_ls", "tsserver", "clangd", "rust_analyzer" },
 })
 
 local lspconfig = require("lspconfig")
@@ -34,7 +34,7 @@ local on_attach_custom = function(client, bufnr)
 		hint_enable = false,
 		doc_lines = 0,
 		handler_opts = {
-			border = "none",
+			border = "rounded",
 		},
 	}, bufnr)
 
@@ -73,10 +73,6 @@ require("mason-lspconfig").setup_handlers({
 		lspconfig[server_name].setup(lsp_options)
 	end,
 
-	-- Python (pyright) ===========================================================
-	["pyright"] = function()
-		lspconfig.pyright.setup(vim.tbl_deep_extend("force", lsp_options, {}))
-	end,
 	-- Lua (lua_ls) ==========================================================
 	["lua_ls"] = function()
 		lspconfig.lua_ls.setup(vim.tbl_deep_extend("force", lsp_options, {
@@ -133,4 +129,7 @@ require("mason-lspconfig").setup_handlers({
 	["tsserver"] = function()
 		lspconfig.tsserver.setup(vim.tbl_deep_extend("force", lsp_options, {}))
 	end,
+  ["rust_analyzer"] = function ()
+    lspconfig.rust_analyzer.setup(vim.tbl_deep_extend("force", lsp_options, {}))
+  end
 })
