@@ -91,8 +91,8 @@ require("lazy").setup({
 	{ "hrsh7th/cmp-buffer" },
 	{ "hrsh7th/cmp-path" },
 	{ "hrsh7th/cmp-cmdline" },
+	{ "hrsh7th/cmp-nvim-lsp-signature-help" },
 	{ "hrsh7th/nvim-cmp" },
-	{ "ray-x/lsp_signature.nvim" },
 	{
 		"zbirenbaum/copilot.lua",
 		cmd = "Copilot",
@@ -101,6 +101,7 @@ require("lazy").setup({
 			require("copilot").setup()
 		end,
 	},
+
 	-- SNIPS
 	{
 		"L3MON4D3/LuaSnip",
@@ -119,10 +120,15 @@ require("lazy").setup({
 	--LSP
 	{ "williamboman/mason.nvim", lazy = true },
 	{ "neovim/nvim-lspconfig" },
+  -- TODO: if needed, set this up under ftplugin/rust.lua
+	-- {
+	-- 	"mrcjkb/rustaceanvim",
+	-- 	version = "^3", -- Recommended
+	-- 	ft = { "rust" },
+	-- },
 	{ "williamboman/mason-lspconfig.nvim" },
 	{ "folke/neodev.nvim", opts = {} },
 	{ "stevearc/conform.nvim", opts = {} },
-	-- { "simrat39/rust-tools.nvim" },
 
 	-- Treesitter
 	{ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" },

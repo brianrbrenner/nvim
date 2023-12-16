@@ -5,9 +5,9 @@ local mason_lspconfig = require("mason-lspconfig")
 -- - clangd for C/C++
 -- - lua_ls for Lua
 -- - typescript-language-server for Typescript and Javascript
--- - rust_analyzer for.. well yeah Rust
+-- - rust_analyzer for Rust
 mason_lspconfig.setup({
-	ensure_installed = { "lua_ls", "tsserver", "clangd", "rust_analyzer" },
+	ensure_installed = { "lua_ls", "tsserver", "clangd" },
 })
 
 local lspconfig = require("lspconfig")
@@ -26,17 +26,7 @@ local on_attach_custom = function(client, bufnr)
 		vim.api.nvim_buf_set_option(bufnr, name, value)
 	end
 	client.default_capabilities = require("cmp_nvim_lsp").default_capabilities()
-  client.server_capabilities.offsetEncoding = { "utf-8" }
-
-	-- signatures
-	require("lsp_signature").on_attach({
-		floating_window = true,
-		hint_enable = false,
-		doc_lines = 0,
-		handler_opts = {
-			border = "rounded",
-		},
-	}, bufnr)
+	client.server_capabilities.offsetEncoding = { "utf-8" }
 
 	-- Mappings are created globally for simplicity
 	lsp_keymaps(bufnr)
