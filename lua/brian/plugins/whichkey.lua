@@ -99,6 +99,10 @@ end
 
 local mappings = {
 	["a"] = { toggleAlpha, "Alpha" },
+	["b"] = {
+		":lua require('fzf-lua').buffers({winopts = { height = 0.25, width = 1, row = 1}, preview_opts = 'hidden'})<cr>",
+		"Buffers",
+	},
 	["r"] = { ":%d+<cr>", "Remove All Text" },
 	["y"] = { ":%y+<cr>", "Yank All Text" },
 	["e"] = { ":NvimTreeToggle<CR>", "Explorer" },
