@@ -21,9 +21,8 @@ require("lazy").setup({
 			vim.cmd([[colorscheme jellybeans]])
 		end,
 	},
-  { "typicode/bg.nvim", lazy = false },
+	{ "typicode/bg.nvim", lazy = false },
 	{ "goolord/alpha-nvim" },
-	{ "j-morano/buffer_manager.nvim" },
 	-- COMMENTS
 	{
 		"numToStr/Comment.nvim",
@@ -67,6 +66,11 @@ require("lazy").setup({
 	},
 	-- LIB
 	{ "nvim-lua/plenary.nvim" },
+  -- HARPOON
+  {
+    "ThePrimeagen/harpoon",
+    branch = "harpoon2",
+  },
 	-- GIT
 	{
 		"lewis6991/gitsigns.nvim",
@@ -117,7 +121,7 @@ require("lazy").setup({
 	--LSP
 	{ "williamboman/mason.nvim", lazy = true },
 	{ "neovim/nvim-lspconfig" },
-  -- TODO: if needed, set this up under ftplugin/rust.lua
+	-- TODO: if needed, set this up under ftplugin/rust.lua
 	-- {
 	-- 	"mrcjkb/rustaceanvim",
 	-- 	version = "^3", -- Recommended
