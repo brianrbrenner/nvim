@@ -21,12 +21,9 @@ require("lazy").setup({
 			vim.cmd([[colorscheme jellybeans]])
 		end,
 	},
-	{
-		"goolord/alpha-nvim",
-	},
-	{
-		"j-morano/buffer_manager.nvim",
-	},
+  { "typicode/bg.nvim", lazy = false },
+	{ "goolord/alpha-nvim" },
+	{ "j-morano/buffer_manager.nvim" },
 	-- COMMENTS
 	{
 		"numToStr/Comment.nvim",
