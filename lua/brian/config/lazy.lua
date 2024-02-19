@@ -14,13 +14,20 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = " "
 
 require("lazy").setup({
-	{
-		"brianrbrenner/nvim-jellybeans",
-		dependencies = "rktjmp/lush.nvim",
-		config = function()
-			vim.cmd([[colorscheme jellybeans]])
-		end,
-	},
+	-- {
+	-- 	"brianrbrenner/nvim-jellybeans",
+ --    priority = 1000,
+	-- 	dependencies = "rktjmp/lush.nvim",
+	-- 	config = function()
+	-- 		vim.cmd([[colorscheme jellybeans]])
+	-- 	end,
+	-- },
+  {
+    "rose-pine/neovim",
+    lazy = false,
+    priority = 1000,
+    name = "rose-pine"
+  },
 	{ "typicode/bg.nvim", lazy = false },
 	{ "goolord/alpha-nvim" },
 	-- COMMENTS
@@ -66,11 +73,6 @@ require("lazy").setup({
 	},
 	-- LIB
 	{ "nvim-lua/plenary.nvim" },
-  -- HARPOON
-  {
-    "ThePrimeagen/harpoon",
-    branch = "harpoon2",
-  },
 	-- GIT
 	{
 		"lewis6991/gitsigns.nvim",
