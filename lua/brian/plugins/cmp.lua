@@ -26,15 +26,14 @@ return {
 			window = {
 				completion = cmp.config.window.bordered({
 					border = { "┏", "━", "┓", "┃", "┛", "━", "┗", "┃" },
-					-- border = { "┌", "─", "┐", "│", "┘", "─", "└", "│" },
 					scrollbar = false,
-					winhighlight = "Normal:Normal,FloatBorder:CmpWinBorder,CursorLine:PmenuSel,Search:None",
+					winhighlight = "CursorLine:PmenuSel",
 				}),
 				documentation = cmp.config.window.bordered({
 					border = { "┏", "━", "┓", "┃", "┛", "━", "┗", "┃" },
 					-- border = { "┌", "─", "┐", "│", "┘", "─", "└", "│" },
 					scrollbar = false,
-					winhighlight = "Normal:Normal,FloatBorder:CmpWinBorder,CursorLine:PmenuSel,Search:None",
+					winhighlight = "",
 				}),
 			},
 			mapping = {
@@ -97,7 +96,7 @@ return {
 					mode = "symbol",
 					maxwidth = 50,
 					ellipsis_char = "...",
-          show_labelDetails = true,
+					show_labelDetails = true,
 					before = function(entry, vim_item)
 						return vim_item
 					end,

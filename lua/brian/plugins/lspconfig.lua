@@ -111,7 +111,7 @@ function M.config()
 		"marksman",
 		"tailwindcss",
 		-- "eslint",
-		-- "rust_analyzer",
+		"rust_analyzer",
 	}
 
 	local default_diagnostic_config = {
