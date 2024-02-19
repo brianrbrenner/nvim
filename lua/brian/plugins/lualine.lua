@@ -1,42 +1,73 @@
-require('lualine').setup {
-  options = {
-    icons_enabled = true,
-    theme = 'auto',
-    -- component_separators = { left = '', right = ''},
-    component_separators = { left = '|', right = '|' },
-    -- section_separators = { left = '', right = ''},
-    section_separators = { left = '', right = '' },
-    disabled_filetypes = {
-      statusline = {},
-      winbar = {},
-    },
-    ignore_focus = {},
-    always_divide_middle = true,
-    globalstatus = false,
-    refresh = {
-      statusline = 1000,
-      tabline = 1000,
-      winbar = 1000,
-    }
-  },
-  sections = {
-    lualine_a = {'mode'},
-    lualine_b = {'branch', 'diff', 'diagnostics'},
-    lualine_c = { {'filename', path = 1} },
-    lualine_x = {'encoding', 'fileformat', 'filetype'},
-    lualine_y = {'progress'},
-    lualine_z = {'location'}
-  },
-  inactive_sections = {
-    lualine_a = {},
-    lualine_b = {},
-    lualine_c = {'filename'},
-    lualine_x = {'location'},
-    lualine_y = {},
-    lualine_z = {}
-  },
-  tabline = {},
-  winbar = {},
-  inactive_winbar = {},
-  extensions = {}
+local function setup_macro_refresh(lualine)
+	vim.api.nvim_create_autocmd("RecordingEnter", {
+		callback = function()
+			lualine.refresh({
+				place = { "statusline" },
+			})
+		end,
+	})
+	vim.api.nvim_create_autocmd("RecordingLeave", {
+		callback = function()
+			local timer = vim.loop.new_timer()
+			timer:start(
+				50,
+				0,
+				vim.schedule_wrap(function()
+					lualine.refresh({
+						place = { "statusline" },
+					})
+				end)
+			)
+		end,
+	})
+end
+
+local function macro_recording_status()
+	local function current_status()
+		local register = vim.fn.reg_recording()
+		return register == "" and "" or "RECORDING @" .. register
+	end
+	return { "macro-recording", fmt = current_status }
+end
+
+return {
+	"nvim-lualine/lualine.nvim",
+	event = "VeryLazy",
+	dependencies = {
+		"nvim-tree/nvim-web-devicons",
+	},
+	init = function()
+		vim.opt.laststatus = 0
+	end,
+	config = function()
+		vim.opt.laststatus = 3
+		local lualine = require("lualine")
+		setup_macro_refresh(lualine)
+		lualine.setup({
+			options = {
+				theme = "rose-pine",
+				component_separators = "",
+				section_separators = { left = "", right = "" },
+				disabled_filetypes = { "alpha" },
+			},
+			sections = {
+				lualine_a = {
+					{ "mode", separator = { left = "", right = "" }, right_padding = 2 },
+					macro_recording_status(),
+				},
+				lualine_b = {
+					"branch",
+					"diff",
+					"diagnostics",
+				},
+				lualine_c = { { "filename", path = 1 } },
+				lualine_x = { "filetype" },
+				lualine_y = { "progress" },
+				lualine_z = {
+					{ "location", separator = { right = "", left = "" }, left_padding = 2 },
+				},
+			},
+			extensions = { "nvim-tree", "fzf" },
+		})
+	end,
 }

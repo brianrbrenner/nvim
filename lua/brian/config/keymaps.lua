@@ -27,6 +27,8 @@ end
 
 local keymaps = {
 	normal_mode = {
+		-- buffers
+		["gB"] = ":BufferLinePick<CR>",
 		-- Better window navigation
 		["<C-j>"] = "<C-w>j",
 		["<C-k>"] = "<C-w>k",
@@ -35,7 +37,7 @@ local keymaps = {
 		-- Move Next Window
 		["<Leader>w"] = "<C-w>w",
 		-- Close Window
-    ["Q"] = ":bp|bd #<CR>",
+		["Q"] = ":bp|bd #<CR>",
 		-- Center screen on up and down half page
 		["<C-u>"] = "<C-u>zz",
 		["<C-d>"] = "<C-d>zz",
@@ -52,23 +54,14 @@ local keymaps = {
 		["<"] = "<<",
 		[">"] = ">>",
 
-    -- trim whitespace
+		-- trim whitespace
 	},
 	insert_mode = {
 		-- exit other mode
 		["jk"] = "<Esc>",
 		["kj"] = "<Esc>",
 	},
-	terminal_mode = {
-		-- Terminal Navigation
-		["C-j"] = "<C-\\><C-n><C-W>j",
-		["C-k"] = "<C-\\><C-n><C-W>k",
-		["C-h"] = "<C-\\><C-n><C-W>h",
-		["C-l"] = "<C-\\><C-n><C-W>l",
-		-- exit other modes
-		["jk"] = "<C-\\><C-n>",
-		-- exit other modes
-	},
+	terminal_mode = {},
 	visual_mode = {
 		-- Better Paste
 		["p"] = '"_dP',
@@ -78,16 +71,13 @@ local keymaps = {
 		["<"] = "<gv",
 		[">"] = ">gv",
 		-- Move text up and down
-    ["<A-J>"] = ":m '>+1<CR>gv=gv",
-    ["<A-K>"] = ":m '<-2<CR>gv=gv",
+		["<A-J>"] = ":m '>+1<CR>gv=gv",
+		["<A-K>"] = ":m '<-2<CR>gv=gv",
 	},
 	visual_block_mode = {
 		-- Move text up and down
 		["<leader>p"] = '"_dP',
 	},
-
-	-- buffers
-	["<leader>B"] = ":FzfLua buffers<CR>",
 	command_mode = {
 		-- Word Search Increment and Decrement
 		["ab>"] = forward_search,

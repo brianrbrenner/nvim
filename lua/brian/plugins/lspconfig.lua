@@ -1,125 +1,169 @@
-require("mason").setup()
-local mason_lspconfig = require("mason-lspconfig")
-
--- Currently used language servers:
--- - clangd for C/C++
--- - lua_ls for Lua
--- - typescript-language-server for Typescript and Javascript
--- - rust_analyzer for Rust
-mason_lspconfig.setup({
-	ensure_installed = { "lua_ls", "tsserver", "clangd" },
-})
-
-local lspconfig = require("lspconfig")
-
--- Preconfiguration ===========================================================
-local function lsp_keymaps(bufnr)
-	local opts = { buffer = bufnr, silent = true }
-	vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
-	vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-	vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-	vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
-end
-
-local on_attach_custom = function(client, bufnr)
-	local function buf_set_option(name, value)
-		vim.api.nvim_buf_set_option(bufnr, name, value)
-	end
-	client.default_capabilities = require("cmp_nvim_lsp").default_capabilities()
-	client.server_capabilities.offsetEncoding = { "utf-8" }
-
-	-- Mappings are created globally for simplicity
-	lsp_keymaps(bufnr)
-	-- Currently all formatting is handled with 'conform' plugin
-	if vim.fn.has("nvim-0.8") == 1 then
-		client.server_capabilities.documentFormattingProvider = false
-		client.server_capabilities.documentRangeFormattingProvider = false
-	else
-		client.resolved_capabilities.document_formatting = false
-		client.resolved_capabilities.document_range_formatting = false
-	end
-end
-
-local diagnostic_opts = {
-	-- Show gutter sings
-	signs = {
-		-- With highest priority
-		priority = 9999,
-		-- Only for warnings and errors
-		severity = { min = "WARN", max = "ERROR" },
+local M = {
+	"neovim/nvim-lspconfig",
+	event = { "BufReadPre", "BufNewFile" },
+	dependencies = {
+		{
+			"pmizio/typescript-tools.nvim",
+			"hrsh7th/cmp-nvim-lsp",
+			"folke/neodev.nvim",
+			"b0o/schemastore.nvim",
+		},
 	},
-	-- Show virtual text only for errors
-	virtual_text = { severity = { min = "ERROR", max = "ERROR" } },
-	-- Don't update diagnostics when typing
-	update_in_insert = false,
 }
 
-vim.diagnostic.config(diagnostic_opts)
--- server configs with Mason
-local lsp_options = { on_attach = on_attach_custom }
+local function lsp_keymaps(bufnr)
+	local opts = { noremap = true, silent = true }
+	local keymap = vim.api.nvim_buf_set_keymap
+	keymap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
+	keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
+	keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
+	keymap(bufnr, "n", "gI", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
+	keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
+	keymap(bufnr, "n", "gl", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
+end
 
-require("mason-lspconfig").setup_handlers({
-	function(server_name)
-		lspconfig[server_name].setup(lsp_options)
-	end,
+-- Toggle Diagnostics for buffer
+local diagnostics_active = true
+local toggle_diagnostics = function()
+	diagnostics_active = not diagnostics_active
+	if diagnostics_active then
+		vim.api.nvim_echo({ { "Show diagnostics" } }, false, {})
+		vim.diagnostic.enable()
+	else
+		vim.api.nvim_echo({ { "Disable diagnostics" } }, false, {})
+		vim.diagnostic.disable()
+	end
+end
 
-	-- Lua (lua_ls) ==========================================================
-	["lua_ls"] = function()
-		lspconfig.lua_ls.setup(vim.tbl_deep_extend("force", lsp_options, {
-			handlers = {
-				-- Don't open quickfix list in case of multiple definitions. At the
-				-- moment, this conflicts the `a = function()` code style because
-				-- lua_ls treats both `a` and `function()` to be definitions of `a`.
-				["textDocument/definition"] = function(_, result, ctx, _)
-					-- Adapted from source:
-					-- https://github.com/neovim/neovim/blob/master/runtime/lua/vim/lsp/handlers.lua#L341-L366
-					if result == nil or vim.tbl_isempty(result) then
-						return nil
-					end
-					local client = vim.lsp.get_client_by_id(ctx.client_id)
+M.on_attach = function(client, bufnr)
+	lsp_keymaps(bufnr)
 
-					local res = vim.tbl_islist(result) and result[1] or result
-					vim.lsp.util.jump_to_location(res, client.offset_encoding)
-				end,
-			},
-			on_attach = function(client, bufnr)
-				on_attach_custom(client, bufnr)
-				-- Reduce unnecessarily long list of completion triggers for better
-				-- `MiniCompletion` experience
-				client.server_capabilities.completionProvider.triggerCharacters = { ".", ":" }
-			end,
-			settings = {
-				Lua = {
-					diagnostics = {
-						-- Get the language server to recognize common globals
-						globals = { "vim", "describe", "it", "before_each", "after_each" },
-						disable = { "need-check-nil" },
-					},
-					workspace = {
-						-- Don't analyze code from submodules
-						ignoreSubmodules = true,
-						-- Make the server aware of Neovim runtime files
-						-- library = { [vim.fn.expand("$VIMRUNTIME/lua")] = true, [vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true },
-					},
-					-- Do not send telemetry data containing a randomized but unique identifier
-					telemetry = {
-						enable = false,
-					},
-				},
-			},
-		}))
-	end,
-	-- C/C++ (clangd) =============================================================
-	-- Install as system package (`sudo pacman -S llvm clang`)
-	-- default capabilities are OK for now
-	["clangd"] = function()
-		lspconfig.clangd.setup(vim.tbl_deep_extend("force", lsp_options, {}))
-	end,
-	-- Typescript (tsserver) ======================================================
-	["tsserver"] = function()
-		lspconfig.tsserver.setup(vim.tbl_deep_extend("force", lsp_options, {}))
-	end,
-  ["rust_analyzer"] = function ()
-    lspconfig.rust_analyzer.setup(vim.tbl_deep_extend("force", lsp_options, {}))
-  end
-})
+	if client.supports_method("textDocument/inlayHint") then
+		vim.lsp.inlay_hint.enable(bufnr, true)
+	end
+end
+
+M.toggle_inlay_hints = function()
+	local bufnr = vim.api.nvim_get_current_buf()
+	vim.lsp.inlay_hint.enable(bufnr, not vim.lsp.inlay_hint.is_enabled(bufnr))
+end
+
+function M.common_capabilities()
+	local status_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+	if status_ok then
+		return cmp_nvim_lsp.default_capabilities()
+	end
+
+	local capabilities = vim.lsp.protocol.make_client_capabilities()
+	capabilities.textDocument.completion.completionItem.snippetSupport = true
+	capabilities.textDocument.completion.completionItem.resolveSupport = {
+		properties = {
+			"documentation",
+			"detail",
+			"additionalTextEdits",
+		},
+	}
+	capabilities.textDocument.foldingRange = {
+		dynamicRegistration = false,
+		lineFoldingOnly = true,
+	}
+
+	return capabilities
+end
+
+function M.config()
+	local wk = require("which-key")
+	wk.register({
+		["<leader>la"] = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code Action" },
+		["<leader>lf"] = {
+			"<cmd>lua vim.lsp.buf.format({async = true, filter = function(client) return client.name ~= 'typescript-tools' end})<cr>",
+			"Format",
+		},
+		["<leader>li"] = { "<cmd>LspInfo<cr>", "Info" },
+		["<leader>lj"] = { "<cmd>lua vim.diagnostic.goto_next()<cr>", "Next Diagnostic" },
+		["<leader>lh"] = { "<cmd>lua require('user.lspconfig').toggle_inlay_hints()<cr>", "Hints" },
+		["<leader>lk"] = { "<cmd>lua vim.diagnostic.goto_prev()<cr>", "Prev Diagnostic" },
+		["<leader>ll"] = { "<cmd>lua vim.lsp.codelens.run()<cr>", "CodeLens Action" },
+		["<leader>lq"] = { "<cmd>lua vim.diagnostic.setloclist()<cr>", "Quickfix" },
+		["<leader>lr"] = { "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename" },
+		["<leader>lD"] = { toggle_diagnostics, "Toggle Diagnostics" },
+	})
+
+	wk.register({
+		["<leader>la"] = {
+			name = "LSP",
+			a = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code Action", mode = "v" },
+		},
+	})
+
+	local lspconfig = require("lspconfig")
+
+	local servers = {
+		"lua_ls",
+		"cssls",
+		"html",
+		"tsserver",
+		"pyright",
+		"bashls",
+		"lemminx",
+		"jsonls",
+		"yamlls",
+		"marksman",
+		-- "tailwindcss",
+		-- "eslint",
+		-- "rust_analyzer",
+	}
+
+	local default_diagnostic_config = {
+		signs = {
+			active = true,
+		},
+		virtual_text = false,
+		update_in_insert = false,
+		underline = true,
+		severity_sort = true,
+		float = {
+			focusable = true,
+			style = "minimal",
+			border = "rounded",
+			source = "always",
+			header = "",
+			prefix = "",
+		},
+	}
+
+	vim.diagnostic.config(default_diagnostic_config)
+
+	for _, sign in ipairs(vim.tbl_get(vim.diagnostic.config(), "signs", "values") or {}) do
+		vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = sign.name })
+	end
+
+	vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
+	vim.lsp.handlers["textDocument/signatureHelp"] =
+		vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
+	require("lspconfig.ui.windows").default_options.border = "rounded"
+
+	for _, server in pairs(servers) do
+		local opts = {
+			on_attach = M.on_attach,
+			capabilities = M.common_capabilities(),
+		}
+
+		local require_ok, settings = pcall(require, "brian.lspsettings." .. server)
+		if require_ok then
+			opts = vim.tbl_deep_extend("force", settings, opts)
+		end
+
+		if server == "lua_ls" then
+			require("neodev").setup({})
+		end
+
+		if server == "tsserver" then
+			require("typescript-tools").setup({})
+		end
+
+		lspconfig[server].setup(opts)
+	end
+end
+
+return M
