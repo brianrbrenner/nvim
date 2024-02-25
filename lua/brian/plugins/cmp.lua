@@ -23,6 +23,19 @@ return {
 		local luasnip = require("luasnip")
 		require("luasnip.loaders.from_vscode").lazy_load()
 		cmp.setup({
+			window = {
+				completion = cmp.config.window.bordered({
+					border = { "┏", "━", "┓", "┃", "┛", "━", "┗", "┃" },
+					scrollbar = false,
+					winhighlight = "CursorLine:PmenuSel",
+				}),
+				documentation = cmp.config.window.bordered({
+					border = { "┏", "━", "┓", "┃", "┛", "━", "┗", "┃" },
+					-- border = { "┌", "─", "┐", "│", "┘", "─", "└", "│" },
+					scrollbar = false,
+					winhighlight = "",
+				}),
+			},
 			mapping = {
 				["<C-p>"] = cmp.mapping.select_prev_item(),
 				["<C-n>"] = cmp.mapping.select_next_item(),
