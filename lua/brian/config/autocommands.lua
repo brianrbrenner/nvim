@@ -50,8 +50,8 @@ autocmd("BufEnter", {
 	group = general,
 })
 
-autocmd("FileType", {
-	pattern = { "c", "h", "cpp", "hpp", "rs" },
+autocmd({ "WinEnter", "FileType" }, {
+	pattern = { "*.c", "*.h", "*.cpp", "*.hpp", "*.rs" },
 	callback = function()
 		vim.bo.shiftwidth = 8
 		vim.bo.tabstop = 8
@@ -108,10 +108,16 @@ autocmd("FileType", {
 
 -- Close NvimTree
 vim.api.nvim_create_autocmd("BufEnter", {
-  group = vim.api.nvim_create_augroup("NvimTreeClose", {clear = true}),
-  pattern = "NvimTree_*",
-  callback = function()
-    local layout = vim.api.nvim_call_function("winlayout", {})
-    if layout[1] == "leaf" and vim.api.nvim_buf_get_option(vim.api.nvim_win_get_buf(layout[2]), "filetype") == "NvimTree" and layout[3] == nil then vim.cmd("confirm quit") end
-  end
+	group = vim.api.nvim_create_augroup("NvimTreeClose", { clear = true }),
+	pattern = "NvimTree_*",
+	callback = function()
+		local layout = vim.api.nvim_call_function("winlayout", {})
+		if
+			layout[1] == "leaf"
+			and vim.api.nvim_buf_get_option(vim.api.nvim_win_get_buf(layout[2]), "filetype") == "NvimTree"
+			and layout[3] == nil
+		then
+			vim.cmd("confirm quit")
+		end
+	end,
 })
