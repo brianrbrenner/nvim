@@ -6,6 +6,36 @@ local augroup = vim.api.nvim_create_augroup
 -- General Settings
 local general = augroup("General Settings", { clear = true })
 
+local function require_lualine ()
+		vim.opt.laststatus = 3
+		local lualine = require("lualine")
+		lualine.setup({
+			options = {
+        theme = 'kanagawa',
+				component_separators = "",
+				section_separators = { left = "", right = "" },
+				disabled_filetypes = { "alpha" },
+			},
+			sections = {
+				lualine_a = {
+					{ "mode", separator = { left = "", right = "" }, right_padding = 2 },
+				},
+				lualine_b = {
+					"branch",
+					"diff",
+					"diagnostics",
+				},
+				lualine_c = { { "filename", path = 1 } },
+				lualine_x = { "filetype" },
+				lualine_y = { "progress" },
+				lualine_z = {
+					{ "location", separator = { right = "", left = "" }, left_padding = 2 },
+				},
+			},
+			extensions = { "nvim-tree", "fzf" },
+		})
+end
+
 -- Disable Bufferline And Lualine in Alpha
 autocmd("User", {
 	pattern = "AlphaReady",
@@ -50,11 +80,13 @@ autocmd("BufEnter", {
 	group = general,
 })
 
-autocmd({ "WinEnter", "FileType" }, {
+autocmd({ "BufEnter", "BufWinEnter" }, {
 	pattern = { "*.c", "*.h", "*.cpp", "*.hpp", "*.rs" },
 	callback = function()
 		vim.bo.shiftwidth = 8
 		vim.bo.tabstop = 8
+    vim.cmd('colorscheme kanagawa-dragon')
+    require_lualine()
 	end,
 	group = general,
 })
