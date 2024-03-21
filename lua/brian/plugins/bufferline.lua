@@ -8,7 +8,7 @@ return {
 	},
 	config = function()
 		local bufferline = require("bufferline")
-    local p = require("kanagawa.colors").setup({ theme = 'dragon' })
+    local p = require("base16-colorscheme").colors
 		bufferline.setup({
 			-- TODO: Fix background highlights for diagnostics
 			highlights = {
