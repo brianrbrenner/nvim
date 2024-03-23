@@ -1,5 +1,6 @@
 local options = {
 	backup = false, -- creates a backup file
+  -- use xclip in X and wl-copy/wl-paste in wayland
 	clipboard = "unnamedplus", -- allows neovim to access the system clipboard
 	-- completeopt = { "menuone", "noselect" }, -- mostly just for cmp
 	conceallevel = 0, -- so that `` is visible in markdown files
