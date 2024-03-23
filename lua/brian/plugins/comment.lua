@@ -1,5 +1,6 @@
 return {
 	"numToStr/Comment.nvim",
+	dependencies = "JoosepAlviste/nvim-ts-context-commentstring",
 	keys = {
 		{ "gcc", mode = "n", desc = "Comment toggle current line" },
 		{ "gbc", mode = "n", desc = "Comment toggle current block" },
@@ -13,6 +14,9 @@ return {
 	},
 	config = function()
 		local comment = require("Comment")
-		comment.setup()
+		local commentstring = require("ts_context_commentstring.integrations.comment_nvim")
+		comment.setup({
+			pre_hook = commentstring.create_pre_hook(),
+		})
 	end,
 }
