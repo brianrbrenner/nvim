@@ -1,8 +1,17 @@
 local M = {
 	"williamboman/mason-lspconfig.nvim",
 	dependencies = {
-		"williamboman/mason.nvim",
+		{
+			"williamboman/mason.nvim",
+			opts = {
+				registries = {
+					"github:nvim-java/mason-registry",
+					"github:mason-org/mason-registry",
+				},
+			},
+		},
 		"nvim-lua/plenary.nvim",
+		"jay-babu/mason-nvim-dap.nvim",
 	},
 }
 
@@ -20,6 +29,7 @@ M.execs = {
 	"tailwindcss",
 	"rust_analyzer",
 	"eslint",
+	"jdtls",
 }
 
 function M.config()
@@ -30,6 +40,9 @@ function M.config()
 	})
 	require("mason-lspconfig").setup({
 		ensure_installed = M.execs,
+	})
+	require("mason-nvim-dap").setup({
+		ensure_installed = { "java-debug-adapter", "java-test" },
 	})
 end
 
