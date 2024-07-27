@@ -30,7 +30,7 @@ return {
 			-- add operators that will trigger motion and text object completion
 			-- to enable all native operators, set the preset / operators plugin above
 			-- operators = { gc = "Comments" },
-			key_labels = {
+			replace = {
 				-- override the label used to display some keys. It doesn't effect WK in any other way.
 				-- For example:
 				-- ["<space>"] = "SPC",
@@ -42,11 +42,11 @@ return {
 				separator = "➜", -- symbol used between a key and it's label
 				group = "+", -- symbol prepended to a group
 			},
-			popup_mappings = {
+			keys = {
 				scroll_down = "<c-d>", -- binding to scroll down inside the popup
 				scroll_up = "<c-u>", -- binding to scroll up inside the popup
 			},
-			window = {
+			win = {
 				border = "rounded", -- none, single, double, shadow
 				position = "bottom", -- bottom, top
 				margin = { 1, 0, 1, 0 }, -- extra window margin [top, right, bottom, left]
@@ -59,130 +59,145 @@ return {
 				spacing = 3, -- spacing between columns
 				align = "left", -- align columns left, center or right
 			},
-			ignore_missing = true, -- enable this to hide mappings for which you didn't specify a label
-			hidden = { "<silent>", ":", "<Cmd>", "<cr>", "call", "lua", "^:", "^ " }, -- hide mapping boilerplate
+			-- hidden = { "<silent>", ":", "<Cmd>", "<cr>", "call", "lua", "^:", "^ " }, -- hide mapping boilerplate
 			show_help = true, -- show help message on the command line when the popup is visible
-			triggers = "auto", -- automatically setup triggers
-			-- triggers = {"<leader>"} -- or specify a list manually
-			triggers_blacklist = {
-				-- list of mode / prefixes that should never be hooked by WhichKey
-				-- this is mostly relevant for key maps that start with a native binding
-				-- most people should not need to change this
-				i = { "j", "k" },
-				v = { "j", "k" },
-			},
+			triggers = {"<leader>", mode = {"n", "v" }} -- or specify a list manually
 		}
 
-		local opts = {
-			mode = "n", -- NORMAL mode
-			prefix = "<leader>",
-			buffer = nil, -- Global mappings. Specify a buffer number for buffer local mappings
-			silent = true, -- use `silent` when creating keymaps
-			noremap = true, -- use `noremap` when creating keymaps
-			nowait = true, -- use `nowait` when creating keymaps
-		}
-
-		local function toggleAlpha()
-			if vim.bo.buftype == "" or vim.bo.filetype == "alpha" or vim.bo.filetype == "checkhealth" then
-				vim.cmd(":Alpha")
-			end
-		end
-
-		-- Toggle Diagnostics for buffer
-		local diagnostics_active = true
-		local toggle_diagnostics = function()
-			diagnostics_active = not diagnostics_active
-			if diagnostics_active then
-				vim.api.nvim_echo({ { "Show diagnostics" } }, false, {})
-				vim.diagnostic.enable()
-			else
-				vim.api.nvim_echo({ { "Disable diagnostics" } }, false, {})
-				vim.diagnostic.disable()
-			end
-		end
-
-		local mappings = {
-			["a"] = { toggleAlpha, "Alpha" },
-			["b"] = {
+		which_key.add({
+			{ "<leader>S", group = "Search", nowait = true, remap = false },
+			{ "<leader>SC", ":FzfLua commands<cr>", desc = "Commands", nowait = true, remap = false },
+			{ "<leader>SH", ":FzfLua highlights<cr>", desc = "Highlights", nowait = true, remap = false },
+			{ "<leader>Sb", ":FzfLua git_branches<cr>", desc = "Checkout branch", nowait = true, remap = false },
+			{ "<leader>Sc", ":FzfLua colorschemes<cr>", desc = "Colorscheme", nowait = true, remap = false },
+			{ "<leader>Sh", ":FzfLua help_tags<cr>", desc = "Find Help", nowait = true, remap = false },
+			{ "<leader>Sk", ":FzfLua keymaps<cr>", desc = "Keymaps", nowait = true, remap = false },
+			{
+				"<leader>b",
 				":lua require('fzf-lua').buffers({winopts = { height = 0.25, width = 1, row = 1}, preview_opts = 'hidden'})<cr>",
-				"Buffers",
+				desc = "Buffers",
+				nowait = true,
+				remap = false,
 			},
-			["y"] = { ":%y+<cr>", "Yank All Text" },
-			["e"] = { ":NvimTreeToggle<CR>", "Explorer" },
-			["q"] = { ":qa!<cr>", "Exit" },
-			-- ["f"] = {
-			--   ":lua require('fzf-lua').files({winopts = { height = 0.25, width = 1, row = 1}, preview_opts = 'hidden'})<cr>",
-			--   "Find files",
-			-- },
-			f = {
-				name = "Files",
-				f = { ":lua require('fzf-lua').files()<cr>", "Find files" },
-				r = { ":FzfLua oldfiles<cr>", "Find recent files" },
-				g = { ":FzfLua live_grep<CR>", "Find Text" },
+			{ "<leader>e", ":NvimTreeToggle<CR>", desc = "Explorer", nowait = true, remap = false },
+			{ "<leader>f", group = "Files", nowait = true, remap = false },
+			{ "<leader>ff", ":lua require('fzf-lua').files()<cr>", desc = "Find files", nowait = true, remap = false },
+			{ "<leader>fg", ":FzfLua live_grep<CR>", desc = "Find Text", nowait = true, remap = false },
+			{ "<leader>fr", ":FzfLua oldfiles<cr>", desc = "Find recent files", nowait = true, remap = false },
+			{ "<leader>g", group = "Git", nowait = true, remap = false },
+			{
+				"<leader>gR",
+				":lua require 'gitsigns'.reset_buffer()<cr>",
+				desc = "Reset Buffer",
+				nowait = true,
+				remap = false,
 			},
-			g = {
-				name = "Git",
-				g = { ":lua _LAZYGIT_TOGGLE()<cr>", "Lazygit" },
-				f = { ":FzfLua git_files<cr>", "Find tracked files" },
-				j = { ":lua require 'gitsigns'.next_hunk()<cr>", "Next Hunk" },
-				k = { ":lua require 'gitsigns'.prev_hunk()<cr>", "Prev Hunk" },
-				l = { ":lua require 'gitsigns'.blame_line()<cr>", "Blame" },
-				p = { ":lua require 'gitsigns'.preview_hunk()<cr>", "Preview Hunk" },
-				r = { ":lua require 'gitsigns'.reset_hunk()<cr>", "Reset Hunk" },
-				R = { ":lua require 'gitsigns'.reset_buffer()<cr>", "Reset Buffer" },
-				s = { ":lua require 'gitsigns'.stage_hunk()<cr>", "Stage Hunk" },
-				u = {
-					":lua require 'gitsigns'.undo_stage_hunk()<cr>",
-					"Undo Stage Hunk",
-				},
-				o = { ":FzfLua git_status<cr>", "Open changed file" },
-				b = { ":FzfLua git_branches<cr>", "Checkout branch" },
-				c = { ":FzfLua git_commits<cr>", "Checkout commit" },
-				d = {
-					":Gitsigns diffthis HEAD<cr>",
-					"Diff",
-				},
+			{ "<leader>gb", ":FzfLua git_branches<cr>", desc = "Checkout branch", nowait = true, remap = false },
+			{ "<leader>gc", ":FzfLua git_commits<cr>", desc = "Checkout commit", nowait = true, remap = false },
+			{ "<leader>gd", ":Gitsigns diffthis HEAD<cr>", desc = "Diff", nowait = true, remap = false },
+			{ "<leader>gf", ":FzfLua git_files<cr>", desc = "Find tracked files", nowait = true, remap = false },
+			{ "<leader>gg", ":lua _LAZYGIT_TOGGLE()<cr>", desc = "Lazygit", nowait = true, remap = false },
+			{
+				"<leader>gj",
+				":lua require 'gitsigns'.next_hunk()<cr>",
+				desc = "Next Hunk",
+				nowait = true,
+				remap = false,
 			},
-			l = {
-				name = "LSP",
-				a = { ":lua vim.lsp.buf.code_action()<cr>", "Code Action" },
-				f = { ":lua require('conform').format()<cr>", "Format" },
-				i = { ":LspInfo<cr>", "Info" },
-				m = { ":Mason<cr>", "Mason Installer" },
-				j = {
-					":lua vim.diagnostic.goto_prev()<cr>",
-					"Prev Diagnostic",
-				},
-				k = {
-					":lua vim.diagnostic.goto_next()<cr>",
-					"Next Diagnostic",
-				},
-				r = { ":lua vim.diagnostic.rename<cr>", "Rename" },
-				R = { ":FzfLua lsp_references<cr>", "References" },
-				d = { ":FzfLua diagnostics<cr>", "Diagnostics" },
-				D = { toggle_diagnostics, "Toggle Diagnostics" },
-				s = { ":FzfLua lsp_document_symbols<cr>", "Document Symbols" },
-				S = { ":FzfLua lsp_workspace_symbols<cr>", "Workspace Symbols" },
-				q = { ":FzfLua quickfix<cr>", "Quickfix List" },
+			{
+				"<leader>gk",
+				":lua require 'gitsigns'.prev_hunk()<cr>",
+				desc = "Prev Hunk",
+				nowait = true,
+				remap = false,
 			},
-			S = {
-				name = "Search",
-				b = { ":FzfLua git_branches<cr>", "Checkout branch" },
-				c = { ":FzfLua colorschemes<cr>", "Colorscheme" },
-				h = { ":FzfLua help_tags<cr>", "Find Help" },
-				k = { ":FzfLua keymaps<cr>", "Keymaps" },
-				C = { ":FzfLua commands<cr>", "Commands" },
-				H = { ":FzfLua highlights<cr>", "Highlights" },
+			{ "<leader>gl", ":lua require 'gitsigns'.blame_line()<cr>", desc = "Blame", nowait = true, remap = false },
+			{ "<leader>go", ":FzfLua git_status<cr>", desc = "Open changed file", nowait = true, remap = false },
+			{
+				"<leader>gp",
+				":lua require 'gitsigns'.preview_hunk()<cr>",
+				desc = "Preview Hunk",
+				nowait = true,
+				remap = false,
 			},
-			t = {
-				name = "Terminal",
-				f = { ":ToggleTerm direction=float<cr>", "Terminal Float" },
-				h = { ":ToggleTerm size=10 direction=horizontal<cr>", "Terminal Horizontal" },
-				v = { ":ToggleTerm size=50 direction=vertical<cr>", "Terminal Vertical" },
+			{
+				"<leader>gr",
+				":lua require 'gitsigns'.reset_hunk()<cr>",
+				desc = "Reset Hunk",
+				nowait = true,
+				remap = false,
 			},
-		}
+			{
+				"<leader>gs",
+				":lua require 'gitsigns'.stage_hunk()<cr>",
+				desc = "Stage Hunk",
+				nowait = true,
+				remap = false,
+			},
+			{
+				"<leader>gu",
+				":lua require 'gitsigns'.undo_stage_hunk()<cr>",
+				desc = "Undo Stage Hunk",
+				nowait = true,
+				remap = false,
+			},
+			{ "<leader>l", group = "LSP", nowait = true, remap = false },
+			{ "<leader>lR", ":FzfLua lsp_references<cr>", desc = "References", nowait = true, remap = false },
+			{
+				"<leader>lS",
+				":FzfLua lsp_workspace_symbols<cr>",
+				desc = "Workspace Symbols",
+				nowait = true,
+				remap = false,
+			},
+			{ "<leader>la", ":lua vim.lsp.buf.code_action()<cr>", desc = "Code Action", nowait = true, remap = false },
+			{ "<leader>ld", ":FzfLua diagnostics<cr>", desc = "Diagnostics", nowait = true, remap = false },
+			{ "<leader>lf", ":lua require('conform').format()<cr>", desc = "Format", nowait = true, remap = false },
+			{ "<leader>li", ":LspInfo<cr>", desc = "Info", nowait = true, remap = false },
+			{
+				"<leader>lj",
+				":lua vim.diagnostic.goto_prev()<cr>",
+				desc = "Prev Diagnostic",
+				nowait = true,
+				remap = false,
+			},
+			{
+				"<leader>lk",
+				":lua vim.diagnostic.goto_next()<cr>",
+				desc = "Next Diagnostic",
+				nowait = true,
+				remap = false,
+			},
+			{ "<leader>lm", ":Mason<cr>", desc = "Mason Installer", nowait = true, remap = false },
+			{ "<leader>lq", ":FzfLua quickfix<cr>", desc = "Quickfix List", nowait = true, remap = false },
+			{ "<leader>lr", ":lua vim.diagnostic.rename<cr>", desc = "Rename", nowait = true, remap = false },
+			{
+				"<leader>ls",
+				":FzfLua lsp_document_symbols<cr>",
+				desc = "Document Symbols",
+				nowait = true,
+				remap = false,
+			},
+			{ "<leader>q", ":qa!<cr>", desc = "Exit", nowait = true, remap = false },
+			{ "<leader>t", group = "Terminal", nowait = true, remap = false },
+			{ "<leader>tf", ":ToggleTerm direction=float<cr>", desc = "Terminal Float", nowait = true, remap = false },
+			{
+				"<leader>th",
+				":ToggleTerm size=10 direction=horizontal<cr>",
+				desc = "Terminal Horizontal",
+				nowait = true,
+				remap = false,
+			},
+			{
+				"<leader>tv",
+				":ToggleTerm size=50 direction=vertical<cr>",
+				desc = "Terminal Vertical",
+				nowait = true,
+				remap = false,
+			},
+			{ "<leader>y", ":%y+<cr>", desc = "Yank All Text", nowait = true, remap = false },
+		})
 
 		which_key.setup(setup)
-		which_key.register(mappings, opts)
 	end,
 }

@@ -22,30 +22,16 @@ local function lsp_keymaps(bufnr)
 	keymap(bufnr, "n", "gl", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
 end
 
--- Toggle Diagnostics for buffer
-local diagnostics_active = true
-local toggle_diagnostics = function()
-	diagnostics_active = not diagnostics_active
-	if diagnostics_active then
-		vim.api.nvim_echo({ { "Show diagnostics" } }, false, {})
-		vim.diagnostic.enable()
-	else
-		vim.api.nvim_echo({ { "Disable diagnostics" } }, false, {})
-		vim.diagnostic.disable()
-	end
-end
-
 M.on_attach = function(client, bufnr)
 	lsp_keymaps(bufnr)
 
 	if client.supports_method("textDocument/inlayHint") then
-		vim.lsp.inlay_hint.enable(bufnr, true)
+		vim.lsp.inlay_hint.enable(true)
 	end
 end
 
 M.toggle_inlay_hints = function()
-	local bufnr = vim.api.nvim_get_current_buf()
-	vim.lsp.inlay_hint.enable(bufnr, not vim.lsp.inlay_hint.is_enabled(bufnr))
+	vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
 end
 
 function M.common_capabilities()
@@ -73,31 +59,19 @@ end
 
 function M.config()
 	local wk = require("which-key")
-	wk.register({
-		["<leader>la"] = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code Action" },
-		["<leader>lf"] = {
-			"<cmd>lua vim.lsp.buf.format({async = true, filter = function(client) return client.name ~= 'typescript-tools' end})<cr>",
-			"Format",
-		},
-		["<leader>li"] = { "<cmd>LspInfo<cr>", "Info" },
-		["<S-Space>"] = { "<cmd>lua vim.diagnostic.goto_next()<cr>", "Next Diagnostic" },
-		["<S-BS>"] = { "<cmd>lua vim.diagnostic.goto_prev()<cr>", "Prev Diagnostic" },
-		["<leader>lh"] = { "<cmd>lua require('user.lspconfig').toggle_inlay_hints()<cr>", "Hints" },
-		["<leader>ll"] = { "<cmd>lua vim.lsp.codelens.run()<cr>", "CodeLens Action" },
-		["<leader>lq"] = { "<cmd>lua vim.diagnostic.setloclist()<cr>", "Quickfix" },
-		["<leader>lr"] = { "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename" },
-		["<leader>lD"] = { toggle_diagnostics, "Toggle Diagnostics" },
-	})
-
-	wk.register({
-		["<leader>la"] = {
-			name = "LSP",
-			a = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code Action", mode = "v" },
-		},
-	})
+	wk.add({
+    { "<S-BS>", "<cmd>lua vim.diagnostic.goto_prev()<cr>", desc = "Prev Diagnostic" },
+    { "<S-Space>", "<cmd>lua vim.diagnostic.goto_next()<cr>", desc = "Next Diagnostic" },
+    { "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<cr>", desc = "Code Action" },
+    { "<leader>lf", "<cmd>lua vim.lsp.buf.format({async = true, filter = function(client) return client.name ~= 'typescript-tools' end})<cr>", desc = "Format" },
+    { "<leader>lh", "<cmd>lua require('user.lspconfig').toggle_inlay_hints()<cr>", desc = "Hints" },
+    { "<leader>li", "<cmd>LspInfo<cr>", desc = "Info" },
+    { "<leader>ll", "<cmd>lua vim.lsp.codelens.run()<cr>", desc = "CodeLens Action" },
+    { "<leader>lq", "<cmd>lua vim.diagnostic.setloclist()<cr>", desc = "Quickfix" },
+    { "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>", desc = "Rename" },
+  })
 
 	local lspconfig = require("lspconfig")
-
 	local servers = {
 		"lua_ls",
 		"cssls",
@@ -110,7 +84,7 @@ function M.config()
 		"yamlls",
 		"marksman",
 		"tailwindcss",
-		-- "eslint",
+		"eslint",
 		"rust_analyzer",
     "zls",
 	}
