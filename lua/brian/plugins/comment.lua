@@ -8,9 +8,9 @@ return {
 		{ "gcO", mode = "n", desc = "Insert comment to the previous line and enters INSERT mode" },
 		{ "gcA", mode = "n", desc = "Insert comment to end of the current line and enters INSERT mode" },
 		{ "gb", mode = { "n", "o" }, desc = "Comment toggle blockwise" },
-		{ "gc", mode = { "n", "o" }, desc = "Comment toggle linewise" },
-		{ "gc", mode = "x", desc = "Comment toggle linewise (visual)" },
-		{ "gb", mode = "x", desc = "Comment toggle blockwise (visual)" },
+		{ "gcl", mode = { "n", "o" }, desc = "Comment toggle linewise" },
+		{ "gcv", mode = "x", desc = "Comment toggle linewise (visual)" },
+		{ "gbv", mode = "x", desc = "Comment toggle blockwise (visual)" },
 	},
 	config = function()
 		local comment = require("Comment")
