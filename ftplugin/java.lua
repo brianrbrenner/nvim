@@ -1,4 +1,5 @@
 require("brian.config.jdtls").setup_jdtls()
+require("barbecue.ui").toggle(true)
 
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(args)
@@ -10,6 +11,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 })
 
 local wk = require("which-key")
+local springboot = require("springboot-nvim")
 
 wk.add({
 	{ "<leader>j", group = "Java", nowait = true, remap = false },
@@ -25,6 +27,16 @@ wk.add({
 	{ "<leader>jt", group = "Test", nowait = true, remap = false },
 	{ "<leader>jtc", ":lua require('jdtls').test_class()<CR>", desc = "Class" },
 	{ "<leader>jtm", ":lua require('jdtls').test_nearest_method()<CR>", desc = "Nearest Method" },
+	{
+		"<leader>jrd",
+		":lua require('springboot-nvim').boot_run('-Pdev')",
+		desc = "Run Dev Profile",
+		nowait = true,
+		remap = false,
+	},
+	{ "<leader>jgc", springboot.generate_class, desc = "Generate Class", nowait = true, remap = false },
+	{ "<leader>jgi", springboot.generate_interface, desc = "Generate Interface", nowait = true, remap = false },
+	{ "<leader>jge", springboot.generate_enum, desc = "Generate Enum", nowait = true, remap = false },
 })
 
 require("nvim-tree").setup({

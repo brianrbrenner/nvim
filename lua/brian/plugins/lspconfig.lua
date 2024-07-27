@@ -87,6 +87,7 @@ function M.config()
 		"eslint",
 		"rust_analyzer",
     "zls",
+    "jdtls",
 	}
 
 	local default_diagnostic_config = {

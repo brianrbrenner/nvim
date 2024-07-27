@@ -5,7 +5,7 @@ return {
 	config = function()
 		require("ibl").setup({
       exclude = {
-        filetypes = { 'rust', 'c', 'c++', 'zig' }
+        filetypes = { 'rust', 'c', 'c++', 'zig', 'lua' }
       }
     })
 	end,

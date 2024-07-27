@@ -42,6 +42,7 @@ function M.config()
 		ensure_installed = M.execs,
 	})
 	require("mason-nvim-dap").setup({
+    automatic_installation = true,
 		ensure_installed = { "java-debug-adapter", "java-test" },
 	})
 end
