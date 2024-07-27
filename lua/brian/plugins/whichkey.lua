@@ -1,13 +1,13 @@
 return {
 	"folke/which-key.nvim",
-	lazy = true,
+	event = "VeryLazy",
 	config = function()
 		local status_ok, which_key = pcall(require, "which-key")
 		if not status_ok then
 			return
 		end
 
-		local setup = {
+		which_key.setup({
 			plugins = {
 				marks = true, -- shows a list of your marks on ' and `
 				registers = true, -- shows your registers on " in NORMAL or <C-r> in INSERT mode
@@ -15,27 +15,14 @@ return {
 					enabled = true, -- enabling this will show WhichKey when pressing z= to select spelling suggestions
 					suggestions = 20, -- how many suggestions should be shown in the list?
 				},
-				-- the presets plugin, adds help for a bunch of default keybindings in Neovim
-				-- No actual key bindings are created
 				presets = {
 					operators = false, -- adds help for operators like d, y, ... and registers them for motion / text object completion
 					motions = true, -- adds help for motions
-					text_objects = true, -- help for text objects triggered after entering an operator
-					windows = true, -- default bindings on <c-w>
+					text_objects = true, -- help for text objects triggered after entering an operator					windows = true, -- default bindings on <c-w>
 					nav = true, -- misc bindings to work with windows
 					z = true, -- bindings for folds, spelling and others prefixed with z
 					g = false, -- bindings for prefixed with g
 				},
-			},
-			-- add operators that will trigger motion and text object completion
-			-- to enable all native operators, set the preset / operators plugin above
-			-- operators = { gc = "Comments" },
-			replace = {
-				-- override the label used to display some keys. It doesn't effect WK in any other way.
-				-- For example:
-				-- ["<space>"] = "SPC",
-				-- ["<cr>"] = "RET",
-				-- ["<tab>"] = "TAB",
 			},
 			icons = {
 				breadcrumb = "»", -- symbol used in the command line area that shows your active key combo
@@ -46,23 +33,14 @@ return {
 				scroll_down = "<c-d>", -- binding to scroll down inside the popup
 				scroll_up = "<c-u>", -- binding to scroll up inside the popup
 			},
-			win = {
-				border = "rounded", -- none, single, double, shadow
-				position = "bottom", -- bottom, top
-				margin = { 1, 0, 1, 0 }, -- extra window margin [top, right, bottom, left]
-				padding = { 2, 2, 2, 2 }, -- extra window padding [top, right, bottom, left]
-				winblend = 8,
-			},
 			layout = {
 				height = { min = 4, max = 25 }, -- min and max height of the columns
 				width = { min = 20, max = 50 }, -- min and max width of the columns
 				spacing = 3, -- spacing between columns
 				align = "left", -- align columns left, center or right
 			},
-			-- hidden = { "<silent>", ":", "<Cmd>", "<cr>", "call", "lua", "^:", "^ " }, -- hide mapping boilerplate
-			show_help = true, -- show help message on the command line when the popup is visible
-			triggers = {"<leader>", mode = {"n", "v" }} -- or specify a list manually
-		}
+			show_help = false, -- show help message on the command line when the popup is visible
+		})
 
 		which_key.add({
 			{ "<leader>S", group = "Search", nowait = true, remap = false },
@@ -179,6 +157,7 @@ return {
 				remap = false,
 			},
 			{ "<leader>q", ":qa!<cr>", desc = "Exit", nowait = true, remap = false },
+      { "<leader>r", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], desc = "Replace all in file"},
 			{ "<leader>t", group = "Terminal", nowait = true, remap = false },
 			{ "<leader>tf", ":ToggleTerm direction=float<cr>", desc = "Terminal Float", nowait = true, remap = false },
 			{
@@ -197,7 +176,5 @@ return {
 			},
 			{ "<leader>y", ":%y+<cr>", desc = "Yank All Text", nowait = true, remap = false },
 		})
-
-		which_key.setup(setup)
 	end,
 }
