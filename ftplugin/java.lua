@@ -42,7 +42,7 @@ wk.add({
 	{ "<leader>jr", group = "Run", nowait = true, remap = false },
 	{
 		"<leader>jrd",
-		":lua require('springboot-nvim').boot_run('-Pdev')<CR>",
+		":JavaRunnerRunMain 'mvn spring-boot:run -Pdev'<CR>",
 		desc = "Run Dev Profile",
 		nowait = true,
 		remap = false,
