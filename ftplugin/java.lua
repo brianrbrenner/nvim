@@ -1,4 +1,3 @@
-require("brian.config.jdtls").setup_jdtls()
 require("barbecue.ui").toggle(true)
 
 vim.api.nvim_create_autocmd("LspAttach", {
@@ -11,7 +10,13 @@ vim.api.nvim_create_autocmd("LspAttach", {
 })
 
 local wk = require("which-key")
-local springboot = require("springboot-nvim")
+
+local code_action = function(action)
+	return vim.lsp.buf.code_action({
+		context = { only = { action } },
+		apply = true,
+	})
+end
 
 wk.add({
 	{ "<leader>j", group = "Java", nowait = true, remap = false },
@@ -23,10 +28,17 @@ wk.add({
 		remap = false,
 	},
 	{ "<leader>ji", ":TermExec cmd='mvn clean install'<CR>", desc = "Clean Install", nowait = true, remap = false },
-	{ "<leader>jo", ":lua require('jdtls').organize_imports()<CR>", desc = "Organize Imports" },
+	{
+		"<leader>jo",
+		code_action("source.organizeImports"),
+		desc = "Organize Imports",
+	},
 	{ "<leader>jt", group = "Test", nowait = true, remap = false },
-	{ "<leader>jtc", ":lua require('jdtls').test_class()<CR>", desc = "Class" },
-	{ "<leader>jtm", ":lua require('jdtls').test_nearest_method()<CR>", desc = "Nearest Method" },
+	{ "<leader>jtc", ":JavaTestRunCurrentClass<CR>", desc = "Class" },
+	{ "<leader>jtm", ":JavaTestRunCurrentMethod<CR>", desc = "Nearest Method" },
+	{ "<leader>jd", group = "Debug", nowait = true, remap = false },
+	{ "<leader>jdc", ":JavaTestDebugCurrentClass<CR>", desc = "Class" },
+	{ "<leader>jdm", ":JavaTestDebugCurrentMethod<CR>", desc = "Nearest Method" },
 	{ "<leader>jr", group = "Run", nowait = true, remap = false },
 	{
 		"<leader>jrd",
@@ -36,9 +48,10 @@ wk.add({
 		remap = false,
 	},
 	{ "<leader>jg", group = "Generate", nowait = true, remap = false },
-	{ "<leader>jgc", springboot.generate_class, desc = "Generate Class", nowait = true, remap = false },
-	{ "<leader>jgi", springboot.generate_interface, desc = "Generate Interface", nowait = true, remap = false },
-	{ "<leader>jge", springboot.generate_enum, desc = "Generate Enum", nowait = true, remap = false },
+  -- this hopefully soon
+	-- { "<leader>jgc", code_action("source.generate.class"), desc = "Generate Class", nowait = true, remap = false },
+-- 	{ "<leader>jgi", springboot.generate_interface, desc = "Generate Interface", nowait = true, remap = false },
+-- 	{ "<leader>jge", springboot.generate_enum, desc = "Generate Enum", nowait = true, remap = false },
 })
 
 require("nvim-tree").setup({
