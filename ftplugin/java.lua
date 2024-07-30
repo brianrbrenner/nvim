@@ -176,6 +176,7 @@ local settings = {
 				"jakarta",
 				"javax",
 				"java",
+        "static"
 			},
 		},
 		sources = {
@@ -256,13 +257,7 @@ local config = {
 require("jdtls").start_or_attach(config)
 
 local wk = require("which-key")
-
-local code_action = function(action)
-	return vim.lsp.buf.code_action({
-		context = { only = { action } },
-		apply = true,
-	})
-end
+local springboot = require("springboot-nvim")
 
 wk.add({
 	{ "<leader>j", group = "Java", nowait = true, remap = false },
@@ -276,26 +271,24 @@ wk.add({
 	{ "<leader>ji", ":TermExec cmd='mvn clean install'<CR>", desc = "Clean Install", nowait = true, remap = false },
 	{
 		"<leader>jo",
-		code_action("source.organizeImports"),
+		":lua require('jdtls').organize_imports()<CR>",
 		desc = "Organize Imports",
 	},
 	{ "<leader>jt", group = "Test", nowait = true, remap = false },
 	{ "<leader>jtc", ":lua require('jdtls').test_class()<CR>", desc = "Class" },
 	{ "<leader>jtm", ":lua require('jdtls').test_nearest_method()<CR>", desc = "Nearest Method" },
 	{ "<leader>jd", group = "Debug", nowait = true, remap = false },
-	{ "<leader>jdc", ":JavaTestDebugCurrentClass<CR>", desc = "Class" },
-	{ "<leader>jdm", ":JavaTestDebugCurrentMethod<CR>", desc = "Nearest Method" },
 	{ "<leader>jr", group = "Run", nowait = true, remap = false },
 	{
 		"<leader>jrd",
-		":JavaRunnerRunMain 'mvn spring-boot:run -Pdev'<CR>",
+		":lua require('springboot-nvim').boot_run('-Pdev')",
 		desc = "Run Dev Profile",
 		nowait = true,
 		remap = false,
 	},
 	{ "<leader>jg", group = "Generate", nowait = true, remap = false },
   -- this hopefully soon
-	{ "<leader>jgc", code_action("source.generate.class"), desc = "Generate Class", nowait = true, remap = false },
+	{ "<leader>jgc", springboot.generate_class, desc = "Generate Class", nowait = true, remap = false },
 	{ "<leader>jgi", springboot.generate_interface, desc = "Generate Interface", nowait = true, remap = false },
 	{ "<leader>jge", springboot.generate_enum, desc = "Generate Enum", nowait = true, remap = false },
 })

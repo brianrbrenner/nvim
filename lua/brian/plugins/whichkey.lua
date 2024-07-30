@@ -130,7 +130,7 @@ return {
 				remap = false,
 			},
 			{ "<leader>la", ":lua vim.lsp.buf.code_action()<cr>", desc = "Code Action", nowait = true, remap = false },
-			{ "<leader>ld", ":FzfLua diagnostics<cr>", desc = "Diagnostics", nowait = true, remap = false },
+			{ "<leader>ld", ":FzfLua lsp_workspace_diagnostics<cr>", desc = "Workspace Diagnostics", nowait = true, remap = false },
 			{ "<leader>lf", ":lua require('conform').format()<cr>", desc = "Format", nowait = true, remap = false },
 			{ "<leader>li", ":LspInfo<cr>", desc = "Info", nowait = true, remap = false },
 			{
