@@ -170,13 +170,15 @@ local settings = {
 				"sun.*",
 			},
 			-- Set the order in which the language server should organize imports
+      -- "" is all others, "#" is static imports
 			importOrder = {
 				"com",
 				"org",
 				"jakarta",
 				"javax",
 				"java",
-        "static"
+        "",
+        "#"
 			},
 		},
 		sources = {
