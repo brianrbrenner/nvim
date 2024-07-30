@@ -10,6 +10,7 @@ local M = {
 				},
 			},
 		},
+		"WhoIsSethDaniel/mason-tool-installer.nvim",
 		"nvim-lua/plenary.nvim",
 		"jay-babu/mason-nvim-dap.nvim",
 	},
@@ -41,9 +42,15 @@ function M.config()
 	require("mason-lspconfig").setup({
 		ensure_installed = M.execs,
 	})
-	require("mason-nvim-dap").setup({
-    automatic_installation = true,
-		ensure_installed = { "java-debug-adapter", "java-test" },
+	require("mason-nvim-dap").setup()
+	require("mason-tool-installer").setup({
+		ensure_installed = {
+			"java-debug-adapter",
+			"java-test",
+		},
+
+		-- https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim/issues/39
+		vim.api.nvim_command("MasonToolsInstall"),
 	})
 end
 
