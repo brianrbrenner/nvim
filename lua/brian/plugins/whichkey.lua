@@ -62,7 +62,7 @@ return {
 			{ "<leader>ff", ":lua require('fzf-lua').files()<cr>", desc = "Find files", nowait = true, remap = false },
 			{ "<leader>fg", ":FzfLua live_grep<CR>", desc = "Find Text", nowait = true, remap = false },
 			{ "<leader>fr", ":FzfLua oldfiles<cr>", desc = "Find recent files", nowait = true, remap = false },
-			{ "<leader>fr", ":FzfLua lsp_live_workspace_symbols<cr>", desc = "Find workspace symbols", nowait = true, remap = false },
+			{ "<leader>fs", ":FzfLua lsp_live_workspace_symbols<cr>", desc = "Find workspace symbols", nowait = true, remap = false },
 			{ "<leader>g", group = "Git", nowait = true, remap = false },
 			{
 				"<leader>gR",

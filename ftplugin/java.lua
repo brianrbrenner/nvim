@@ -1,5 +1,12 @@
-require("barbecue.ui").toggle(true)
+vim.opt.expandtab = false
+vim.opt.shiftwidth = 4
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
 
+-- this doesn't work unless I do it again here
+vim.keymap.set("n", "gi", ":lua vim.lsp.buf.implementation()", { remap = false, nowait = true })
+
+require("barbecue.ui").toggle(true)
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(args)
 		local client = vim.lsp.get_client_by_id(args.data.client_id)
@@ -128,11 +135,6 @@ local settings = {
 		-- Enable code formatting
 		format = {
 			enabled = true,
-			-- Use the Google Style guide for code formattingh
-			settings = {
-				url = vim.fn.stdpath("config") .. "/lang_servers/intellij-java-google-style.xml",
-				profile = "GoogleStyle",
-			},
 		},
 		-- Enable downloading archives from eclipse automatically
 		eclipse = {
@@ -173,6 +175,7 @@ local settings = {
       -- "" is all others, "#" is static imports
 			importOrder = {
 				"com",
+        "lombok",
 				"org",
 				"jakarta",
 				"javax",
@@ -265,12 +268,12 @@ wk.add({
 	{ "<leader>j", group = "Java", nowait = true, remap = false },
 	{
 		"<leader>jb",
-		":TermExec cmd='mvn clean install -DskipTests'<CR>",
+		":TermExec cmd='mvn clean install -U -X -DskipTests'<CR>",
 		desc = "Clean Install - no tests",
 		nowait = true,
 		remap = false,
 	},
-	{ "<leader>ji", ":TermExec cmd='mvn clean install'<CR>", desc = "Clean Install", nowait = true, remap = false },
+	{ "<leader>ji", ":TermExec cmd='mvn clean install -U -X'<CR>", desc = "Clean Install", nowait = true, remap = false },
 	{
 		"<leader>jo",
 		":lua require('jdtls').organize_imports()<CR>",
@@ -289,7 +292,6 @@ wk.add({
 		remap = false,
 	},
 	{ "<leader>jg", group = "Generate", nowait = true, remap = false },
-  -- this hopefully soon
 	{ "<leader>jgc", springboot.generate_class, desc = "Generate Class", nowait = true, remap = false },
 	{ "<leader>jgi", springboot.generate_interface, desc = "Generate Interface", nowait = true, remap = false },
 	{ "<leader>jge", springboot.generate_enum, desc = "Generate Enum", nowait = true, remap = false },
