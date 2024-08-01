@@ -20,7 +20,7 @@ local mason_registry = require("mason-registry")
 
 local function get_jdtls()
 	local jdtls = mason_registry.get_package("jdtls")
-  local lombok = mason_registry.get_package("lombok-nightly")
+	local lombok = mason_registry.get_package("lombok-nightly")
 	local jdtls_path = jdtls:get_install_path()
 	local lombok_path = lombok:get_install_path()
 
@@ -172,16 +172,16 @@ local settings = {
 				"sun.*",
 			},
 			-- Set the order in which the language server should organize imports
-      -- "" is all others, "#" is static imports
+			-- "" is all others, "#" is static imports
 			importOrder = {
 				"com",
-        "lombok",
+				"lombok",
 				"org",
 				"jakarta",
 				"javax",
 				"java",
-        "",
-        "#"
+				"",
+				"#",
 			},
 		},
 		sources = {
@@ -273,7 +273,13 @@ wk.add({
 		nowait = true,
 		remap = false,
 	},
-	{ "<leader>ji", ":TermExec cmd='mvn clean install -U -X'<CR>", desc = "Clean Install", nowait = true, remap = false },
+	{
+		"<leader>ji",
+		":TermExec cmd='mvn clean install -U -X'<CR>",
+		desc = "Clean Install",
+		nowait = true,
+		remap = false,
+	},
 	{
 		"<leader>jo",
 		":lua require('jdtls').organize_imports()<CR>",
@@ -295,6 +301,7 @@ wk.add({
 	{ "<leader>jgc", springboot.generate_class, desc = "Generate Class", nowait = true, remap = false },
 	{ "<leader>jgi", springboot.generate_interface, desc = "Generate Interface", nowait = true, remap = false },
 	{ "<leader>jge", springboot.generate_enum, desc = "Generate Enum", nowait = true, remap = false },
+	{ "<leader>jgr", springboot.generate_record, desc = "Generate Record", nowait = true, remap = false },
 })
 
 require("nvim-tree").setup({

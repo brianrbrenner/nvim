@@ -1,5 +1,5 @@
 return {
-    "elmcgill/springboot-nvim",
+    "brianrbrenner/springboot-nvim",
     depedencies = {
         "neovim/nvim-lspconfig",
         "mfussenegger/nvim-jdtls"
