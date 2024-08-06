@@ -4,7 +4,14 @@ vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 
 -- this doesn't work unless I do it again here
-vim.keymap.set("n", "gi", ":lua vim.lsp.buf.implementation()", { remap = false, nowait = true })
+local opts = { noremap = true, silent = true }
+local keymap = vim.keymap.set
+keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
+keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
+keymap("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
+keymap("n", "gI", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
+keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
+keymap("n", "gl", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
 
 require("barbecue.ui").toggle(true)
 vim.api.nvim_create_autocmd("LspAttach", {
@@ -18,6 +25,13 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 local mason_registry = require("mason-registry")
 
+local SYSTEM
+if vim.fn.has("mac") then
+	SYSTEM = "mac"
+else
+	SYSTEM = "linux"
+end
+
 local function get_jdtls()
 	local jdtls = mason_registry.get_package("jdtls")
 	local lombok = mason_registry.get_package("lombok-nightly")
@@ -25,13 +39,6 @@ local function get_jdtls()
 	local lombok_path = lombok:get_install_path()
 
 	local launcher = vim.fn.glob(jdtls_path .. "/plugins/org.eclipse.equinox.launcher_*.jar")
-
-	local SYSTEM
-	if vim.fn.has("mac") then
-		SYSTEM = "mac"
-	else
-		SYSTEM = "linux"
-	end
 
 	-- Obtain the path to configuration files for your specific operating system
 	local config = jdtls_path .. "/config_" .. SYSTEM
@@ -128,10 +135,31 @@ local cmd = {
 	workspace_dir,
 }
 
+local get_runtimes = function()
+	if SYSTEM == "linux" then
+		return {
+			{
+				name = "JavaSE-21",
+				path = "/usr/lib/jvm/openjdk21/",
+			},
+		}
+	else
+		return {
+			{
+				name = "JavaSE-21",
+				path = "/usr/local/opt/openjdk@21/libexec/openjdk/Contents/Home/",
+			},
+			{
+				name = "JavaSE-17",
+				path = "/usr/local/opt/openjdk@17/libexec/openjdk/Contents/Home/",
+			},
+		}
+	end
+end
+
 -- Configure settings in the JDTLS server
 local settings = {
 	java = {
-		home = "/usr/lib/jvm/openjdk21",
 		-- Enable code formatting
 		format = {
 			enabled = true,
@@ -206,6 +234,7 @@ local settings = {
 		},
 		-- If changes to the project will require the developer to update the projects configuration advise the developer before accepting the change
 		configuration = {
+			runtimes = { get_runtimes() },
 			updateBuildConfiguration = "interactive",
 		},
 		-- enable code lens in the lsp
@@ -294,6 +323,13 @@ wk.add({
 		"<leader>jrd",
 		":lua require('springboot-nvim').boot_run('-Pdev')",
 		desc = "Run Dev Profile",
+		nowait = true,
+		remap = false,
+	},
+	{
+		"<leader>jrr",
+		springboot.boot_run,
+		desc = "Run",
 		nowait = true,
 		remap = false,
 	},

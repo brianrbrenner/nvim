@@ -5,6 +5,11 @@ return {
 		name = "fluery",
 		priority = 1000,
 	},
+  -- Gruvbox
+  {
+    "morhetz/gruvbox",
+    priority = 1000,
+  },
 	-- Kanagawa
 	{
 		"rebelot/kanagawa.nvim", -- You can replace this with your favorite colorscheme
