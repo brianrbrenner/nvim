@@ -35,8 +35,23 @@ return {
 		},
 	},
 	config = function()
-		local config = require("fzf-lua.config")
-		local actions = require("trouble.sources.fzf").actions
-		config.defaults.actions.files["ctrl-t"] = actions.open
+		local actions = require("telescope.actions")
+		local open_with_trouble = require("trouble.sources.telescope").open
+
+		-- Use this to add more results without clearing the trouble list
+		local add_to_trouble = require("trouble.sources.telescope").add
+
+		local telescope = require("telescope")
+
+		telescope.setup({
+			defaults = {
+				mappings = {
+					i = { ["<c-t>"] = open_with_trouble },
+					n = { ["<c-t>"] = open_with_trouble },
+				},
+			},
+		})
+
+    require("trouble").setup()
 	end,
 }
