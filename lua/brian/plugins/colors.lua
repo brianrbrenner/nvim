@@ -4,12 +4,18 @@ return {
 		"brianrbrenner/fluery.nvim",
 		name = "fluery",
 		priority = 1000,
+		config = function()
+			-- vim.cmd("colorscheme fluery") -- Replace this with your favorite colorscheme
+		end,
 	},
-  -- Gruvbox
-  {
-    "morhetz/gruvbox",
-    priority = 1000,
-  },
+	-- Gruvbox
+	{
+		"morhetz/gruvbox",
+		priority = 1000,
+		config = function()
+			vim.cmd("colorscheme gruvbox") -- Replace this with your favorite colorscheme
+		end,
+	},
 	-- Kanagawa
 	{
 		"rebelot/kanagawa.nvim", -- You can replace this with your favorite colorscheme
@@ -79,7 +85,7 @@ return {
 		},
 		config = function(_, opts)
 			require("kanagawa").setup(opts) -- Replace this with your favorite colorscheme
-			vim.cmd("colorscheme kanagawa") -- Replace this with your favorite colorscheme
+			-- vim.cmd("colorscheme kanagawa") -- Replace this with your favorite colorscheme
 
 			-- Custom diff colors
 			vim.cmd([[
