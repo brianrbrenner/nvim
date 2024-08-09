@@ -43,6 +43,15 @@ return {
 		})
 
 		which_key.add({
+      -- Bookmarks
+      { "<leader>b", group = "Bookmarks", nowait = true, remap = false },
+
+      -- TODO: Fzf integrations
+      { "<leader>bp", ":Telescope bookmarks<CR>", silent = true, nowait = true, remap = false },
+      { "<leader>ba", ":lua require('bookmarks').add_bookmarks(false)<CR>", silent = true, nowait = true, remap = false },
+      { "<leader>bd", ":lua require('bookmarks.list').delete_on_virt()<CR>", silent = true, nowait = true, remap = false },
+
+      -- SEARCH
 			{ "<leader>S", group = "Search", nowait = true, remap = false },
 			{ "<leader>SC", ":FzfLua commands<cr>", desc = "Commands", nowait = true, remap = false },
 			{ "<leader>SH", ":FzfLua highlights<cr>", desc = "Highlights", nowait = true, remap = false },
@@ -51,13 +60,17 @@ return {
 			{ "<leader>Sh", ":FzfLua help_tags<cr>", desc = "Find Help", nowait = true, remap = false },
 			{ "<leader>Sk", ":FzfLua keymaps<cr>", desc = "Keymaps", nowait = true, remap = false },
 			{
-				"<leader>b",
+				"<leader>fb",
 				":lua require('fzf-lua').buffers({winopts = { height = 0.25, width = 1, row = 1}, preview_opts = 'hidden'})<cr>",
-				desc = "Buffers",
+				desc = "Find Buffers",
 				nowait = true,
 				remap = false,
 			},
+
+      -- NvimTree
 			{ "<leader>e", ":NvimTreeToggle<CR>", desc = "Explorer", nowait = true, remap = false },
+
+      -- FZF Find
 			{ "<leader>f", group = "Files", nowait = true, remap = false },
 			{ "<leader>ff", ":lua require('fzf-lua').files()<cr>", desc = "Find files", nowait = true, remap = false },
 			{ "<leader>fg", ":FzfLua live_grep<CR>", desc = "Find Text", nowait = true, remap = false },

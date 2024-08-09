@@ -1,26 +1,22 @@
 local M = {
-  "nvimtools/none-ls.nvim",
+	"nvimtools/none-ls.nvim",
+	dependencies = {
+		"nvimtools/none-ls-extras.nvim",
+	},
 }
 
 function M.config()
-  local null_ls = require "null-ls"
+	local null_ls = require("null-ls")
+	local formatting = null_ls.builtins.formatting
 
-  local formatting = null_ls.builtins.formatting
-
-  null_ls.setup {
-    debug = true,
-    sources = {
-      formatting.stylua,
-      formatting.prettier,
-      -- formatting.prettier.with {
-      --   extra_filetypes = { "toml" },
-      --   -- extra_args = { "--no-semi", "--single-quote", "--jsx-single-quote" },
-      -- },
-      -- formatting.eslint,
-      null_ls.builtins.diagnostics.eslint,
-      -- null_ls.builtins.completion.spell,
-    },
-  }
+	null_ls.setup({
+		debug = true,
+		sources = {
+			formatting.stylua,
+			formatting.prettier,
+			require("none-ls.diagnostics.eslint_d"),
+		},
+	})
 end
 
 return M

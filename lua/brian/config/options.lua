@@ -77,6 +77,12 @@ for k, v in pairs(global) do
 	vim.g[k] = v
 end
 
+-- refresh buffers when files change on disk
+vim.cmd[[
+  set autoread
+  au CursorHold * checktime
+]]
+
 if vim.fn.exists("g:neovide") == 1 then
 	vim.opt.guifont = "JetBrainsMono Nerd Font:h8"
 	vim.g.remember_window_size = true

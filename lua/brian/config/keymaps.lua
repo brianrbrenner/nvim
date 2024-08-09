@@ -27,8 +27,6 @@ end
 
 local keymaps = {
 	normal_mode = {
-		-- buffers
-		["gB"] = ":BufferLinePick<CR>",
 		-- Better window navigation
 		["<C-j>"] = "<C-w>j",
 		["<C-k>"] = "<C-w>k",
@@ -114,3 +112,4 @@ end
 -- tabs complete
 vim.api.nvim_set_keymap("i", "<Tab>", [[pumvisible() ? "\<C-n>" : "\<Tab>"]], { noremap = true, expr = true })
 vim.api.nvim_set_keymap("i", "<S-Tab>", [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]], { noremap = true, expr = true })
+
