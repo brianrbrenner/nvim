@@ -119,34 +119,11 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
--- Session handling (credit: https://trstringer.com/neovim-automatic-session-git-branch-aware/)
--- in .zshrc
--- vim () {
---     if [[ -z "$@" ]]; then
--- 	SESSION_FILE="Session.vim"
--- 	GIT_BRANCH=""
--- 	if [[ -d ".git" ]]; then
--- 	    GIT_BRANCH=$(git branch --show-current)
--- 	    SESSION_FILE="Session-${GIT_BRANCH}.vim"
--- 	fi
--- 	if [[ -f "$SESSION_FILE" ]]; then
--- 	    nvim -S "$SESSION_FILE" -c "lua vim.g.savesession = true ; vim.g.sessionfile = \"${SESSION_FILE}\""
--- 	else
--- 	    nvim -c "lua vim.g.savesession = true ; vim.g.sessionfile = \"${SESSION_FILE}\""
--- 	fi
---     else
---     	nvim "$@"
---     fi
--- }
+-- Sessions
 vim.api.nvim_create_autocmd("VimLeavePre", {
 	pattern = "*",
 	callback = function()
 		if vim.g.savesession then
-			for _, k in ipairs(vim.api.nvim_list_bufs()) do
-				if vim.fn.getbufinfo(k)[1].hidden == 1 then
-					vim.api.nvim_buf_delete(k, {})
-				end
-			end
 			local session_file = "Session.vim"
 			if vim.g.sessionfile ~= "" then
 				session_file = vim.g.sessionfile
