@@ -13,7 +13,7 @@ return {
 		"morhetz/gruvbox",
 		priority = 1000,
 		config = function()
-			vim.cmd("colorscheme gruvbox") -- Replace this with your favorite colorscheme
+			-- vim.cmd("colorscheme gruvbox") -- Replace this with your favorite colorscheme
 		end,
 	},
 	-- Tairki
@@ -25,7 +25,7 @@ return {
 			require("tairiki").setup({
 				-- optional configuration here
 			})
-			-- require("tairiki").load() -- only necessary to use as default theme, has same behavior as ':colorscheme tairiki'
+			require("tairiki").load() -- only necessary to use as default theme, has same behavior as ':colorscheme tairiki'
 		end,
 	},
 	-- Kanagawa
