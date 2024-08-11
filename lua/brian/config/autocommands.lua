@@ -119,16 +119,36 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
--- Sessions
+-- Session handling - add this to your .zshrc and call nvim using nv for sessions, nvim without sessions
+-- function nv() {
+--   if [[ -z "$@" ]]; then
+--     CWD=${PWD:t}
+--     SESSION_PATH=$HOME/.local/share/nvim/sessions/${CWD}/
+--     SESSION_FILE="Session.vim"
+--     GIT_BRANCH=""
+--     if [[ -d ".git" ]]; then
+--         GIT_BRANCH=$(git branch --show-current)
+--         GIT_BRANCH=${GIT_BRANCH//\//-} # replace '/' with '-' in branch name for dir purposes
+--         mkdir -p ${SESSION_PATH} # make session path if not exists
+--         SESSION_FILE="${SESSION_PATH}Session-${GIT_BRANCH}.vim"
+--     fi
+--     if [[ -f "$SESSION_FILE" ]]; then
+--         nvim -S "$SESSION_FILE" -c "lua vim.g.savesession = true ; vim.g.sessionfile = \"${SESSION_FILE}\""
+--     else
+--         nvim -c "lua vim.g.savesession = true ; vim.g.sessionfile = \"${SESSION_FILE}\""
+--     fi
+--   else
+--     nvim "$@"
+--   fi
+-- }
+-- this function will update session on pre-leave
 vim.api.nvim_create_autocmd("VimLeavePre", {
 	pattern = "*",
 	callback = function()
 		if vim.g.savesession then
-			local session_file = "Session.vim"
 			if vim.g.sessionfile ~= "" then
-				session_file = vim.g.sessionfile
+			  vim.api.nvim_command(string.format("mks! %s", vim.g.sessionfile))
 			end
-			vim.api.nvim_command(string.format("mks! %s", session_file))
 		end
 	end,
 })
