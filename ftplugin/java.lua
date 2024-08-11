@@ -3,7 +3,7 @@ vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 
--- this doesn't work unless I do it again here
+-- attach lsp keymaps for nvim-jdtls
 local opts = { noremap = true, silent = true }
 local keymap = vim.keymap.set
 keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
@@ -14,6 +14,7 @@ keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
 keymap("n", "gl", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
 
 require("barbecue.ui").toggle(true)
+-- disable semantic token highlights as most colorschemes drown out anything useful
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(args)
 		local client = vim.lsp.get_client_by_id(args.data.client_id)
@@ -23,6 +24,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 	end,
 })
 
+-- Credit to [elmcgill](https://github.com/elmcgill/neovim-config) for most of this
 local mason_registry = require("mason-registry")
 
 local SYSTEM
@@ -135,34 +137,16 @@ local cmd = {
 	workspace_dir,
 }
 
-local get_runtimes = function()
-	if SYSTEM == "linux" then
-		return {
-			{
-				name = "JavaSE-21",
-				path = "/usr/lib/jvm/openjdk21/",
-			},
-		}
-	else
-		return {
-			{
-				name = "JavaSE-21",
-				path = "/usr/local/opt/openjdk@21/libexec/openjdk/Contents/Home/",
-			},
-			{
-				name = "JavaSE-17",
-				path = "/usr/local/opt/openjdk@17/libexec/openjdk/Contents/Home/",
-			},
-		}
-	end
-end
-
 -- Configure settings in the JDTLS server
 local settings = {
 	java = {
 		-- Enable code formatting
 		format = {
 			enabled = true,
+			-- source = "absolute/path/to/formatter.xml"
+			settings = {
+				url = "https://raw.githubusercontent.com/google/styleguide/gh-pages/eclipse-java-google-style.xml",
+			},
 		},
 		-- Enable downloading archives from eclipse automatically
 		eclipse = {
@@ -234,7 +218,13 @@ local settings = {
 		},
 		-- If changes to the project will require the developer to update the projects configuration advise the developer before accepting the change
 		configuration = {
-			runtimes = { get_runtimes() },
+			runtimes = {
+        -- will most likely have a different path on other systems
+				{
+					name = "JavaSE-21",
+					path = "/usr/lib/jvm/openjdk21/",
+				},
+			},
 			updateBuildConfiguration = "interactive",
 		},
 		-- enable code lens in the lsp
@@ -321,7 +311,7 @@ wk.add({
 	{ "<leader>jr", group = "Run", nowait = true, remap = false },
 	{
 		"<leader>jrd",
-		":lua require('springboot-nvim').boot_run('-Pdev')",
+		":TermExec cmd='mvn spring-boot:run -Pdev'",
 		desc = "Run Dev Profile",
 		nowait = true,
 		remap = false,
@@ -338,16 +328,4 @@ wk.add({
 	{ "<leader>jgi", springboot.generate_interface, desc = "Generate Interface", nowait = true, remap = false },
 	{ "<leader>jge", springboot.generate_enum, desc = "Generate Enum", nowait = true, remap = false },
 	{ "<leader>jgr", springboot.generate_record, desc = "Generate Record", nowait = true, remap = false },
-})
-
-require("nvim-tree").setup({
-	view = {
-		width = 50,
-		centralize_selection = true,
-	},
-	update_cwd = true,
-	update_focused_file = {
-		enable = true,
-		update_cwd = true,
-	},
 })

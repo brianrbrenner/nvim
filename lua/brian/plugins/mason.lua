@@ -31,6 +31,7 @@ M.execs = {
 	"rust_analyzer",
 	"eslint",
 	"jdtls",
+  "lombok-nightly"
 }
 
 function M.config()
