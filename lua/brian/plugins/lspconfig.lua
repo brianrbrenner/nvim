@@ -4,9 +4,9 @@ local M = {
 	dependencies = {
 		{
 			"pmizio/typescript-tools.nvim",
-			"hrsh7th/cmp-nvim-lsp",
 			"folke/neodev.nvim",
 			"b0o/schemastore.nvim",
+      "saghen/blink.cmp"
 		},
 	},
 }
@@ -35,11 +35,6 @@ M.toggle_inlay_hints = function()
 end
 
 function M.common_capabilities()
-	local status_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-	if status_ok then
-		return cmp_nvim_lsp.default_capabilities()
-	end
-
 	local capabilities = vim.lsp.protocol.make_client_capabilities()
 	capabilities.textDocument.completion.completionItem.snippetSupport = true
 	capabilities.textDocument.completion.completionItem.resolveSupport = {
@@ -54,6 +49,7 @@ function M.common_capabilities()
 		lineFoldingOnly = true,
 	}
 
+  capabilities = require('blink-cmp').get_lsp_capabilities(capabilities)
 	return capabilities
 end
 
@@ -78,9 +74,10 @@ function M.config()
 	local lspconfig = require("lspconfig")
 	local servers = {
 		"lua_ls",
+    "clangd",
 		"cssls",
 		"html",
-		"tsserver",
+		"ts_ls",
 		"pyright",
 		"bashls",
 		"lemminx",
@@ -89,8 +86,8 @@ function M.config()
 		"marksman",
 		"tailwindcss",
 		"eslint",
-		"rust_analyzer",
 		"jdtls",
+    "zls"
 	}
 
 	local default_diagnostic_config = {
@@ -137,7 +134,7 @@ function M.config()
 			require("neodev").setup({})
 		end
 
-		if server == "tsserver" then
+		if server == "ts_ls" then
 			require("typescript-tools").setup({})
 		end
 

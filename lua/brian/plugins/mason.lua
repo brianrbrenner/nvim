@@ -20,7 +20,7 @@ M.execs = {
 	"lua_ls",
 	"cssls",
 	"html",
-	"tsserver",
+	"ts_ls",
 	"astro",
 	"pyright",
 	"bashls",
@@ -28,10 +28,8 @@ M.execs = {
 	"yamlls",
 	"marksman",
 	"tailwindcss",
-	"rust_analyzer",
 	"eslint",
 	"jdtls",
-  "lombok-nightly"
 }
 
 function M.config()
@@ -46,6 +44,7 @@ function M.config()
 	require("mason-nvim-dap").setup()
 	require("mason-tool-installer").setup({
 		ensure_installed = {
+      "lombok-nightly",
 			"java-debug-adapter",
 			"java-test",
 		},

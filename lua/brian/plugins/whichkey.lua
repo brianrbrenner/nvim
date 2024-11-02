@@ -109,7 +109,7 @@ return {
 				nowait = true,
 				remap = false,
 			},
-			{ "<leader>gl", ":lua require 'gitsigns'.blame_line()<cr>", desc = "Blame", nowait = true, remap = false },
+			{ "<leader>gl", ":lua require 'gitsigns'.blame()<cr>", desc = "Blame", nowait = true, remap = false },
 			{ "<leader>go", ":FzfLua git_status<cr>", desc = "Open changed file", nowait = true, remap = false },
 			{
 				"<leader>gp",

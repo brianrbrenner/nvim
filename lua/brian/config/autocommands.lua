@@ -57,6 +57,15 @@ autocmd("FileType", {
 	group = general,
 })
 
+autocmd("FileType", {
+	pattern = { "c", "h" },
+	callback = function()
+		vim.bo.shiftwidth = 8
+		vim.bo.tabstop = 8
+	end,
+	group = general,
+})
+
 -- Update file
 autocmd("FocusGained", {
 	callback = function()
@@ -119,29 +128,7 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
--- Session handling - add this to your .zshrc and call nvim using nv for sessions, nvim without sessions
--- function nv() {
---   if [[ -z "$@" ]]; then
---     CWD=${PWD:t}
---     SESSION_PATH=$HOME/.local/share/nvim/sessions/${CWD}/
---     SESSION_FILE="Session.vim"
---     GIT_BRANCH=""
---     if [[ -d ".git" ]]; then
---         GIT_BRANCH=$(git branch --show-current)
---         GIT_BRANCH=${GIT_BRANCH//\//-} # replace '/' with '-' in branch name for dir purposes
---         mkdir -p ${SESSION_PATH} # make session path if not exists
---         SESSION_FILE="${SESSION_PATH}Session-${GIT_BRANCH}.vim"
---     fi
---     if [[ -f "$SESSION_FILE" ]]; then
---         nvim -S "$SESSION_FILE" -c "lua vim.g.savesession = true ; vim.g.sessionfile = \"${SESSION_FILE}\""
---     else
---         nvim -c "lua vim.g.savesession = true ; vim.g.sessionfile = \"${SESSION_FILE}\""
---     fi
---   else
---     nvim "$@"
---   fi
--- }
--- this function will update session on pre-leave
+-- Session
 vim.api.nvim_create_autocmd("VimLeavePre", {
 	pattern = "*",
 	callback = function()
