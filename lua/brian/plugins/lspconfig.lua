@@ -6,7 +6,7 @@ local M = {
 			"pmizio/typescript-tools.nvim",
 			"folke/neodev.nvim",
 			"b0o/schemastore.nvim",
-      "saghen/blink.cmp"
+			"saghen/blink.cmp",
 		},
 	},
 }
@@ -35,6 +35,11 @@ M.toggle_inlay_hints = function()
 end
 
 function M.common_capabilities()
+	local status_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+	if status_ok then
+		return cmp_nvim_lsp.default_capabilities()
+	end
+
 	local capabilities = vim.lsp.protocol.make_client_capabilities()
 	capabilities.textDocument.completion.completionItem.snippetSupport = true
 	capabilities.textDocument.completion.completionItem.resolveSupport = {
@@ -49,7 +54,7 @@ function M.common_capabilities()
 		lineFoldingOnly = true,
 	}
 
-  capabilities = require('blink-cmp').get_lsp_capabilities(capabilities)
+	-- capabilities = require('blink-cmp').get_lsp_capabilities(capabilities)
 	return capabilities
 end
 
@@ -64,7 +69,7 @@ function M.config()
 			"<cmd>lua vim.lsp.buf.format({async = true, filter = function(client) return client.name ~= 'typescript-tools' end})<cr>",
 			desc = "Format",
 		},
-		{ "<leader>lh", "<cmd>lua require('user.lspconfig').toggle_inlay_hints()<cr>", desc = "Hints" },
+		{ "<leader>lh", "<cmd>lua require('brian.plugins.lspconfig').toggle_inlay_hints()<cr>", desc = "Hints" },
 		{ "<leader>li", "<cmd>LspInfo<cr>", desc = "Info" },
 		{ "<leader>ll", "<cmd>lua vim.lsp.codelens.run()<cr>", desc = "CodeLens Action" },
 		{ "<leader>lq", "<cmd>lua vim.diagnostic.setloclist()<cr>", desc = "Quickfix" },
@@ -74,7 +79,7 @@ function M.config()
 	local lspconfig = require("lspconfig")
 	local servers = {
 		"lua_ls",
-    "clangd",
+		"clangd",
 		"cssls",
 		"html",
 		"ts_ls",
@@ -87,7 +92,7 @@ function M.config()
 		"tailwindcss",
 		"eslint",
 		"jdtls",
-    "zls"
+		"zls",
 	}
 
 	local default_diagnostic_config = {

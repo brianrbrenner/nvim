@@ -103,7 +103,8 @@ local capabilities = {
 	},
 }
 
-local lsp_capabilities = require("blink-cmp").get_lsp_capabilities(capabilities)
+-- local lsp_capabilities = require("blink-cmp").get_lsp_capabilities(capabilities)
+local lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 for k, v in pairs(lsp_capabilities) do
 	capabilities[k] = v
@@ -219,7 +220,7 @@ local settings = {
 		-- If changes to the project will require the developer to update the projects configuration advise the developer before accepting the change
 		configuration = {
 			runtimes = {
-        -- will most likely have a different path on other systems
+				-- will most likely have a different path on other systems
 				{
 					name = "JavaSE-21",
 					path = "/usr/lib/jvm/openjdk21/",
