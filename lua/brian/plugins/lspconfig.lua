@@ -54,7 +54,7 @@ function M.common_capabilities()
 		lineFoldingOnly = true,
 	}
 
-	-- capabilities = require('blink-cmp').get_lsp_capabilities(capabilities)
+	capabilities = require('blink-cmp').get_lsp_capabilities(capabilities)
 	return capabilities
 end
 

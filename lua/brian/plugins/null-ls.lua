@@ -14,7 +14,7 @@ function M.config()
 		sources = {
 			formatting.stylua,
 			formatting.prettier,
-      formatting.clang_format,
+      -- formatting.clang_format,
 			require("none-ls.diagnostics.eslint_d"),
 		},
 	})

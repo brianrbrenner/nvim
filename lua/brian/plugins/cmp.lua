@@ -1,7 +1,7 @@
 return {
 	"iguanacucumber/magazine.nvim",
   name = "nvim-cmp", -- Othevent = "InsertEnter",
-  enabled = true,
+  enabled = false,
 	dependencies = {
 		{ "iguanacucumber/mag-nvim-lsp", name = "cmp-nvim-lsp", opts = {} },
     { "iguanacucumber/mag-nvim-lua", name = "cmp-nvim-lua" },
