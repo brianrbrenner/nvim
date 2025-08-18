@@ -33,13 +33,14 @@ autocmd("BufReadPost", {
 })
 
 -- Highlight when yanking
-autocmd("TextYankPost", {
+local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
+vim.api.nvim_create_autocmd("TextYankPost", {
 	callback = function()
-		require("vim.highlight").on_yank({ higroup = "Visual", timeout = 200 })
+		vim.highlight.on_yank()
 	end,
-	group = general,
+	group = highlight_group,
+	pattern = "*",
 })
-
 -- Disable New Line Comment
 autocmd("BufEnter", {
 	callback = function()
@@ -134,7 +135,7 @@ vim.api.nvim_create_autocmd("VimLeavePre", {
 	callback = function()
 		if vim.g.savesession then
 			if vim.g.sessionfile ~= "" then
-			  vim.api.nvim_command(string.format("mks! %s", vim.g.sessionfile))
+				vim.api.nvim_command(string.format("mks! %s", vim.g.sessionfile))
 			end
 		end
 	end,

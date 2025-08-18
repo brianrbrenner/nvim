@@ -15,7 +15,7 @@ function M.config()
 			formatting.stylua,
 			formatting.prettier,
       -- formatting.clang_format,
-			require("none-ls.diagnostics.eslint_d"),
+			require("none-ls.diagnostics.eslint"),
 		},
 	})
 end

@@ -34,30 +34,6 @@ M.toggle_inlay_hints = function()
 	vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
 end
 
-function M.common_capabilities()
-	local status_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-	if status_ok then
-		return cmp_nvim_lsp.default_capabilities()
-	end
-
-	local capabilities = vim.lsp.protocol.make_client_capabilities()
-	capabilities.textDocument.completion.completionItem.snippetSupport = true
-	capabilities.textDocument.completion.completionItem.resolveSupport = {
-		properties = {
-			"documentation",
-			"detail",
-			"additionalTextEdits",
-		},
-	}
-	capabilities.textDocument.foldingRange = {
-		dynamicRegistration = false,
-		lineFoldingOnly = true,
-	}
-
-	capabilities = require('blink-cmp').get_lsp_capabilities(capabilities)
-	return capabilities
-end
-
 function M.config()
 	local wk = require("which-key")
 	wk.add({
@@ -81,16 +57,15 @@ function M.config()
 		"lua_ls",
 		"clangd",
 		"cssls",
+    "djlsp",
 		"html",
-		"ts_ls",
-		"pyright",
+		"basedpyright",
 		"bashls",
 		"lemminx",
 		"jsonls",
 		"yamlls",
 		"marksman",
 		"tailwindcss",
-		"eslint",
 		"jdtls",
 		"zls",
 	}
@@ -127,7 +102,7 @@ function M.config()
 	for _, server in pairs(servers) do
 		local opts = {
 			on_attach = M.on_attach,
-			capabilities = M.common_capabilities(),
+			capabilities = require("blink.cmp").get_lsp_capabilities(),
 		}
 
 		local require_ok, settings = pcall(require, "brian.lspsettings." .. server)
@@ -135,17 +110,7 @@ function M.config()
 			opts = vim.tbl_deep_extend("force", settings, opts)
 		end
 
-		if server == "lua_ls" then
-			require("neodev").setup({})
-		end
-
-		if server == "ts_ls" then
-			require("typescript-tools").setup({})
-		end
-
-		if server ~= "jdtls" then
-			lspconfig[server].setup(opts)
-		end
+		lspconfig[server].setup(opts)
 	end
 end
 

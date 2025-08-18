@@ -43,15 +43,27 @@ return {
 		})
 
 		which_key.add({
-      -- Bookmarks
-      { "<leader>b", group = "Bookmarks", nowait = true, remap = false },
+			-- Bookmarks
+			{ "<leader>b", group = "Bookmarks", nowait = true, remap = false },
 
-      -- TODO: Fzf integrations
-      { "<leader>bp", ":Telescope bookmarks<CR>", silent = true, nowait = true, remap = false },
-      { "<leader>ba", ":lua require('bookmarks').add_bookmarks(false)<CR>", silent = true, nowait = true, remap = false },
-      { "<leader>bd", ":lua require('bookmarks.list').delete_on_virt()<CR>", silent = true, nowait = true, remap = false },
+			-- TODO: Fzf integrations
+			{ "<leader>bp", ":Telescope bookmarks<CR>", silent = true, nowait = true, remap = false },
+			{
+				"<leader>ba",
+				":lua require('bookmarks').add_bookmarks(false)<CR>",
+				silent = true,
+				nowait = true,
+				remap = false,
+			},
+			{
+				"<leader>bd",
+				":lua require('bookmarks.list').delete_on_virt()<CR>",
+				silent = true,
+				nowait = true,
+				remap = false,
+			},
 
-      -- SEARCH
+			-- SEARCH
 			{ "<leader>S", group = "Search", nowait = true, remap = false },
 			{ "<leader>SC", ":FzfLua commands<cr>", desc = "Commands", nowait = true, remap = false },
 			{ "<leader>SH", ":FzfLua highlights<cr>", desc = "Highlights", nowait = true, remap = false },
@@ -61,20 +73,44 @@ return {
 			{ "<leader>Sk", ":FzfLua keymaps<cr>", desc = "Keymaps", nowait = true, remap = false },
 			{
 				"<leader>fb",
-				":lua require('fzf-lua').buffers({winopts = { height = 0.25, width = 1, row = 1}, preview_opts = 'hidden'})<cr>",
+				":lua require('fzf-lua').buffers({ winopts = { height = 0.25, width = 1, row = 1, preview = { hidden = true } }})<cr>",
 				desc = "Find Buffers",
 				nowait = true,
 				remap = false,
 			},
 
-      -- NvimTree
-			{ "<leader>e", ":NvimTreeToggle<CR>", desc = "Explorer", nowait = true, remap = false },
+			-- NvimTree
+			{
+				"<leader>e",
+				":NvimTreeToggle<CR>",
+				desc = "Explorer",
+				nowait = true,
+				remap = false,
+			},
 
-      -- FZF Find
+			-- FZF Find
 			{ "<leader>f", group = "Files", nowait = true, remap = false },
-			{ "<leader>ff", ":lua require('fzf-lua').files()<cr>", desc = "Find files", nowait = true, remap = false },
-			{ "<leader>fg", ":FzfLua live_grep<CR>", desc = "Find Text", nowait = true, remap = false },
-			{ "<leader>fr", ":FzfLua oldfiles<cr>", desc = "Find recent files", nowait = true, remap = false },
+			{
+				"<leader>ff",
+				":lua require('fzf-lua').files()<cr>",
+				desc = "Find files",
+				nowait = true,
+				remap = false,
+			},
+			{
+				"<leader>fg",
+				":FzfLua live_grep<CR>",
+				desc = "Find Text",
+				nowait = true,
+				remap = false,
+			},
+			{
+				"<leader>fr",
+				":FzfLua oldfiles<cr>",
+				desc = "Find recent files",
+				nowait = true,
+				remap = false,
+			},
 			{
 				"<leader>fs",
 				":FzfLua lsp_live_workspace_symbols<cr>",
@@ -109,8 +145,20 @@ return {
 				nowait = true,
 				remap = false,
 			},
-			{ "<leader>gl", ":lua require 'gitsigns'.blame()<cr>", desc = "Blame", nowait = true, remap = false },
-			{ "<leader>go", ":FzfLua git_status<cr>", desc = "Open changed file", nowait = true, remap = false },
+			{
+				"<leader>gl",
+				":lua require 'gitsigns'.blame()<cr>",
+				desc = "Blame",
+				nowait = true,
+				remap = false,
+			},
+			{
+				"<leader>go",
+				":FzfLua git_status<cr>",
+				desc = "Open changed file",
+				nowait = true,
+				remap = false,
+			},
 			{
 				"<leader>gp",
 				":lua require 'gitsigns'.preview_hunk()<cr>",
@@ -148,7 +196,13 @@ return {
 				nowait = true,
 				remap = false,
 			},
-			{ "<leader>la", ":lua vim.lsp.buf.code_action()<cr>", desc = "Code Action", nowait = true, remap = false },
+			{
+				"<leader>la",
+				":lua vim.lsp.buf.code_action()<cr>",
+				desc = "Code Action",
+				nowait = true,
+				remap = false,
+			},
 			{
 				"<leader>ld",
 				":FzfLua lsp_workspace_diagnostics<cr>",
@@ -156,8 +210,20 @@ return {
 				nowait = true,
 				remap = false,
 			},
-			{ "<leader>lf", ":lua require('conform').format()<cr>", desc = "Format", nowait = true, remap = false },
-			{ "<leader>li", ":LspInfo<cr>", desc = "Info", nowait = true, remap = false },
+			{
+				"<leader>lf",
+				":lua require('conform').format()<cr>",
+				desc = "Format",
+				nowait = true,
+				remap = false,
+			},
+			{
+				"<leader>li",
+				":LspInfo<cr>",
+				desc = "Info",
+				nowait = true,
+				remap = false,
+			},
 			{
 				"<leader>lj",
 				":lua vim.diagnostic.goto_prev()<cr>",
@@ -182,10 +248,27 @@ return {
 				nowait = true,
 				remap = false,
 			},
-			{ "<leader>q", ":qa!<cr>", desc = "Exit", nowait = true, remap = false },
+			{
+				"<leader>q",
+				":qa!<cr>",
+				desc = "Exit",
+				nowait = true,
+				remap = false,
+			},
 			{ "<leader>r", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], desc = "Replace all in file" },
-			{ "<leader>t", group = "Terminal", nowait = true, remap = false },
-			{ "<leader>tf", ":ToggleTerm direction=float<cr>", desc = "Terminal Float", nowait = true, remap = false },
+			{
+				"<leader>t",
+				group = "Terminal",
+				nowait = true,
+				remap = false,
+			},
+			{
+				"<leader>tf",
+				":ToggleTerm direction=float<cr>",
+				desc = "Terminal Float",
+				nowait = true,
+				remap = false,
+			},
 			{
 				"<leader>th",
 				":ToggleTerm size=10 direction=horizontal<cr>",

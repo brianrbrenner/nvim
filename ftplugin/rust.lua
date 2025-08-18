@@ -1,5 +1,3 @@
-require("barbecue.ui").toggle(true)
-
 local function lsp_keymaps(bufnr)
 	local opts = { noremap = true, silent = true }
 	local keymap = vim.api.nvim_buf_set_keymap
@@ -12,9 +10,18 @@ local function lsp_keymaps(bufnr)
 end
 
 vim.g.rustaceannvim = {
-  server = {
-    on_attach = function(client, bufnr)
-      lsp_keymaps(bufnr)
-    end,
-  }
+	server = {
+		on_attach = function(client, bufnr)
+			lsp_keymaps(bufnr)
+		end,
+	},
 }
+
+vim.api.nvim_create_autocmd("LspAttach", {
+	callback = function(args)
+		local client = vim.lsp.get_client_by_id(args.data.client_id)
+		if client then
+			client.server_capabilities.semanticTokensProvider = nil
+		end
+	end,
+})

@@ -13,7 +13,6 @@ keymap("n", "gI", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
 keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
 keymap("n", "gl", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
 
-require("barbecue.ui").toggle(true)
 -- disable semantic token highlights as most colorschemes drown out anything useful
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(args)
