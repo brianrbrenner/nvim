@@ -57,7 +57,7 @@ function M.config()
 		"lua_ls",
 		"clangd",
 		"cssls",
-    "djlsp",
+		"djlsp",
 		"html",
 		"basedpyright",
 		"bashls",
@@ -108,6 +108,16 @@ function M.config()
 		local require_ok, settings = pcall(require, "brian.lspsettings." .. server)
 		if require_ok then
 			opts = vim.tbl_deep_extend("force", settings, opts)
+		end
+
+		if server == "eslint" then
+			opts.on_attach = function(client, bufnr)
+				M.on_attach(client, bufnr)
+				vim.api.nvim_create_autocmd("BufWritePre", {
+					buffer = bufnr,
+					command = "LspEslintFixAll",
+				})
+			end
 		end
 
 		lspconfig[server].setup(opts)

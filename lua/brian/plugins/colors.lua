@@ -31,7 +31,6 @@ return {
 		"deparr/tairiki.nvim",
 		lazy = false,
 		priority = 1000, -- recommended if you use tairiki as your default theme
-		branch = "v2",
 		opts = {
 			diagnostics = {
 				darker = false, -- darken diagnostic virtual text

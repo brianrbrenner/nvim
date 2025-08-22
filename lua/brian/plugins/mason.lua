@@ -18,6 +18,8 @@ local M = {
 
 M.execs = {
 	"lua_ls",
+	"stylua",
+	"prettier",
 	"cssls",
 	"html",
 	"djlsp",
@@ -28,6 +30,7 @@ M.execs = {
 	"yamlls",
 	"marksman",
 	"tailwindcss",
+	"tsserver",
 	"eslint",
 	"jdtls",
 }
