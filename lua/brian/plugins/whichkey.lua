@@ -99,7 +99,7 @@ return {
 			},
 			{
 				"<leader>fg",
-				[[:lua require('fzf-lua').live_grep({ cmd = "rg -v -n --column -g '!{.git,.idea,.vscode,.sass-cache,node_modules,build,tmp,public,dist}'", resume = true })<CR>]],
+				[[:lua require('fzf-lua').grep({ cmd = "rg --color=always --smart-case -g '!{.git,.idea,.vscode,.sass-cache,node_modules,build,tmp,public,dist}/'", silent = true })<CR>]],
 				desc = "Find Text",
 				nowait = true,
 				remap = false,

@@ -1,4 +1,6 @@
 require("brian.config.autocommands")
 require("brian.config.options")
 require("brian.config.lazy")
+require("brian.config.diagnostic")
+require("brian.config.statusline")
 require("brian.config.keymaps")
