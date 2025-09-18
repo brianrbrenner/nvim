@@ -16,6 +16,7 @@ M.execs = {
 	"lua_ls",
 	"stylua",
 	"prettier",
+	"sonarlint-language-server",
 	"cssls",
 	"html",
 	"djlsp",

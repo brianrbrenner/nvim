@@ -67,6 +67,7 @@ function M.config()
 		"marksman",
 		"tailwindcss",
 		"jdtls",
+		"sonarlint-language-server",
 		"zls",
 	}
 
