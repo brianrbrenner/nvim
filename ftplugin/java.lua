@@ -2,6 +2,9 @@ vim.opt.expandtab = false
 vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
+vim.cmd.set("list")
+vim.api.nvim_command("filetype indent off")
+vim.api.smartindent = false
 
 -- attach lsp keymaps for nvim-jdtls
 local opts = { noremap = true, silent = true }
@@ -88,7 +91,7 @@ local workspace_dir = get_workspace()
 local bundles = get_bundles()
 
 -- Determine the root directory of the project by looking for these specific markers
-local root_dir = jdtls.setup.find_root({ ".git", "mvnw", "gradlew", "pom.xml", "build.gradle" })
+local root_dir = vim.fs.root(0, { ".git", "mvnw", "gradlew", "pom.xml", "build.gradle" })
 
 -- Tell our JDTLS language features it is capable of
 local capabilities = {
@@ -222,7 +225,7 @@ local settings = {
 				-- will most likely have a different path on other systems
 				{
 					name = "JavaSE-21",
-					path = "/usr/lib/jvm/openjdk21/",
+					path = os.getenv("JAVA_HOME"),
 				},
 			},
 			updateBuildConfiguration = "interactive",
@@ -248,6 +251,8 @@ local init_options = {
 
 -- Function that will be ran once the language server is attached
 local on_attach = function(_, bufnr)
+	local ts_indent = require("nvim-treesitter.indent")
+	ts_indent.detach(bufnr)
 	require("jdtls.dap").setup_dap({
 		hotcodereplace = "auto",
 	})
@@ -328,4 +333,16 @@ wk.add({
 	{ "<leader>jgi", springboot.generate_interface, desc = "Generate Interface", nowait = true, remap = false },
 	{ "<leader>jge", springboot.generate_enum, desc = "Generate Enum", nowait = true, remap = false },
 	{ "<leader>jgr", springboot.generate_record, desc = "Generate Record", nowait = true, remap = false },
+})
+
+require("nvim-tree").setup({
+  view = {
+    width = 50,
+    centralize_selection = true,
+  },
+  update_cwd = true,
+  update_focused_files = {
+    enable = true,
+    update_cwd = true,
+  },
 })

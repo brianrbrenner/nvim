@@ -37,8 +37,8 @@ end
 function M.config()
 	local wk = require("which-key")
 	wk.add({
-		{ "<S-BS>", "<cmd>lua vim.diagnostic.goto_prev()<cr>", desc = "Prev Diagnostic" },
-		{ "<S-Space>", "<cmd>lua vim.diagnostic.goto_next()<cr>", desc = "Next Diagnostic" },
+		{ "<leader>lk", "<cmd>lua vim.diagnostic.goto_prev()<cr>", desc = "Prev Diagnostic" },
+		{ "<leader>lj", "<cmd>lua vim.diagnostic.goto_next()<cr>", desc = "Next Diagnostic" },
 		{ "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<cr>", desc = "Code Action" },
 		{
 			"<leader>lf",
