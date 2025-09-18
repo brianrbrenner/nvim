@@ -44,8 +44,8 @@ return {
 			},
 		},
 		config = function()
-      require("tairiki").load()
-    end,
+			-- require("tairiki").load()
+		end,
 	},
 	{
 		"wtfox/jellybeans.nvim",
@@ -102,6 +102,13 @@ return {
 		config = function(_, opts)
 			-- require("carbide").setup(opts)
 			-- require("carbide").apply()
+		end,
+	},
+	{
+		"vague2k/vague.nvim",
+		config = function()
+			require("vague").setup()
+      vim.cmd.colorscheme('vague')
 		end,
 	},
 }

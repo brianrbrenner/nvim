@@ -92,14 +92,14 @@ return {
 			{ "<leader>f", group = "Files", nowait = true, remap = false },
 			{
 				"<leader>ff",
-				":lua require('fzf-lua').files()<cr>",
+				":lua require('fzf-lua').files({ fd_opts = '--type f --exclude={.git,.idea,.vscode,.sass-cache,node_modules,build,tmp,public,dist}', resume = true })<cr>",
 				desc = "Find files",
 				nowait = true,
 				remap = false,
 			},
 			{
 				"<leader>fg",
-				":FzfLua live_grep<CR>",
+				[[:lua require('fzf-lua').live_grep({ cmd = "rg -v -n --column -g '!{.git,.idea,.vscode,.sass-cache,node_modules,build,tmp,public,dist}'", resume = true })<CR>]],
 				desc = "Find Text",
 				nowait = true,
 				remap = false,
