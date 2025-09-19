@@ -16,15 +16,15 @@ return {
 			},
 		},
 		config = function()
-			require("tairiki").load()
+			-- require("tairiki").load()
 		end,
 	},
 	{
 		"wtfox/jellybeans.nvim",
 		priority = 1000,
+		opts = {},
 		config = function()
-			-- require("jellybeans").setup()
-			-- vim.cmd.colorscheme("jellybeans")
+			vim.cmd.colorscheme("jellybeans-muted")
 		end,
 	},
 	{
@@ -80,7 +80,7 @@ return {
 		"vague2k/vague.nvim",
 		config = function()
 			-- require("vague").setup()
-   --    vim.cmd.colorscheme('vague')
+			--    vim.cmd.colorscheme('vague')
 		end,
 	},
 }
