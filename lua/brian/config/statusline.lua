@@ -40,7 +40,7 @@ local function mode()
 end
 
 local function git_branch()
-	return vim.g.git_branch and string.format(" %s", vim.g.git_branch) or nil
+	return vim.g.gitsigns_head and string.format(" %s", vim.g.gitsigns_head) or nil
 end
 
 local function diagnostics()

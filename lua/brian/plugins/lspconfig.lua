@@ -52,26 +52,6 @@ function M.config()
 		{ "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>", desc = "Rename" },
 	})
 
-	local default_diagnostic_config = {
-		signs = {
-			active = true,
-		},
-		virtual_text = false,
-		update_in_insert = false,
-		underline = true,
-		severity_sort = true,
-		float = {
-			focusable = true,
-			style = "minimal",
-			border = "rounded",
-			source = "always",
-			header = "",
-			prefix = "",
-		},
-	}
-
-	vim.diagnostic.config(default_diagnostic_config)
-
 	local mason_only = {
 		"prettier",
 		"sonarlint-language-server",
@@ -92,9 +72,9 @@ function M.config()
 		jdtls = "jdtls",
 	}
 
-  local servers = {}
+	local servers = {}
 	for k, v in pairs(server_mason_pairs) do
-    table.insert(servers, tostring(k))
+		table.insert(servers, tostring(k))
 		table.insert(mason_only, v)
 	end
 
