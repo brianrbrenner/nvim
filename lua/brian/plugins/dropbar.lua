@@ -1,3 +1,0 @@
-return {
-	"Bekaboo/dropbar.nvim",
-}

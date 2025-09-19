@@ -25,7 +25,7 @@ end
 M.on_attach = function(client, bufnr)
 	lsp_keymaps(bufnr)
 
-	if client.supports_method("textDocument/inlayHint") then
+	if client:supports_method("textDocument/inlayHint") then
 		vim.lsp.inlay_hint.enable(true)
 	end
 end
@@ -52,25 +52,6 @@ function M.config()
 		{ "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>", desc = "Rename" },
 	})
 
-	local lspconfig = require("lspconfig")
-	local servers = {
-		"lua_ls",
-		"clangd",
-		"cssls",
-		"djlsp",
-		"html",
-		"basedpyright",
-		"bashls",
-		"lemminx",
-		"jsonls",
-		"yamlls",
-		"marksman",
-		"tailwindcss",
-		"jdtls",
-		"sonarlint-language-server",
-		"zls",
-	}
-
 	local default_diagnostic_config = {
 		signs = {
 			active = true,
@@ -91,14 +72,33 @@ function M.config()
 
 	vim.diagnostic.config(default_diagnostic_config)
 
-	for _, sign in ipairs(vim.tbl_get(vim.diagnostic.config(), "signs", "values") or {}) do
-		vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = sign.name })
+	local mason_only = {
+		"prettier",
+		"sonarlint-language-server",
+	}
+
+	local server_mason_pairs = {
+		clangd = "clangd",
+		lua_ls = "lua-language-server",
+		cssls = "css-lsp",
+		html = "html-lsp",
+		djlsp = "django-template-lsp",
+		basedpyright = "basedpyright",
+		bashls = "bash-language-server",
+		jsonls = "json-lsp",
+		yamlls = "yaml-language-server",
+		tailwindcdd = "tailwindcss-language-server",
+		eslint = "eslint-lsp",
+		jdtls = "jdtls",
+	}
+
+  local servers = {}
+	for k, v in pairs(server_mason_pairs) do
+    table.insert(servers, tostring(k))
+		table.insert(mason_only, v)
 	end
 
-	vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
-	vim.lsp.handlers["textDocument/signatureHelp"] =
-		vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
-	require("lspconfig.ui.windows").default_options.border = "rounded"
+	require("mason-tool-installer").setup({ ensure_installed = mason_only, vim.api.nvim_command("MasonToolsInstall") })
 
 	for _, server in pairs(servers) do
 		local opts = {
@@ -121,7 +121,8 @@ function M.config()
 			end
 		end
 
-		lspconfig[server].setup(opts)
+		vim.lsp.config(server, opts)
+		vim.lsp.enable(server)
 	end
 end
 

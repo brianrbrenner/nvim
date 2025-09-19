@@ -50,15 +50,6 @@ autocmd("BufEnter", {
 })
 
 autocmd("FileType", {
-	pattern = { "py", "java", "cs" },
-	callback = function()
-		vim.bo.shiftwidth = 4
-		vim.bo.tabstop = 4
-	end,
-	group = general,
-})
-
-autocmd("FileType", {
 	pattern = { "c", "h" },
 	callback = function()
 		vim.bo.shiftwidth = 8
@@ -118,14 +109,6 @@ vim.api.nvim_create_autocmd("BufEnter", {
 		then
 			vim.cmd("confirm quit")
 		end
-	end,
-})
-
--- JDTLS
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = { "*.java" },
-	callback = function()
-		require("brian.config.jdtls").setup_config()
 	end,
 })
 
