@@ -105,6 +105,7 @@ function M.config()
 	local mason_only = {
 		"prettier",
 		"sonarlint-language-server",
+    "stylua",
 	}
 
 	local server_mason_pairs = {

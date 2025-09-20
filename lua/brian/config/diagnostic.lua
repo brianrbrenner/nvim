@@ -7,7 +7,7 @@ local config = {
 			[vim.diagnostic.severity.INFO] = "i ",
 		},
 	},
-	update_in_insert = true,
+	update_in_insert = false,
 	underline = true,
 	severity_sort = true,
 	float = {
