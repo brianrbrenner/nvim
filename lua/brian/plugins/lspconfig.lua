@@ -30,6 +30,56 @@ M.on_attach = function(client, bufnr)
 	end
 end
 
+-- fix all on save using 0.11+ lspconfig
+local function fix_all(opts)
+	opts = opts or {}
+
+	local bufnr = opts.bufnr or vim.api.nvim_get_current_buf()
+	vim.validate("bufnr", bufnr, "number")
+
+	local client = opts.client or vim.lsp.get_clients({ bufnr = bufnr, name = "eslint" })[1]
+
+	if not client then
+		return
+	end
+
+	local request
+
+	if opts.sync then
+		request = function(buf, method, params)
+			client:request_sync(method, params, nil, buf)
+		end
+	else
+		request = function(buf, method, params)
+			client:request(method, params, nil, buf)
+		end
+	end
+
+	request(bufnr, "workspace/executeCommand", {
+		command = "eslint.applyAllFixes",
+		arguments = {
+			{
+				uri = vim.uri_from_bufnr(bufnr),
+				version = vim.lsp.util.buf_versions[bufnr],
+			},
+		},
+	})
+end
+
+local function eslint_format_on_save(opts)
+	opts.on_init = function(client, _)
+		vim.api.nvim_create_user_command("EslintFixAll", function()
+			fix_all({ client = client, sync = true })
+		end, {})
+
+		vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+			group = vim.api.nvim_create_augroup("eslint_fix", {}),
+			pattern = { "*.js", "*.jsx", "*.ts", "*.tsx" },
+			command = "silent! EslintFixAll",
+		})
+	end
+end
+
 M.toggle_inlay_hints = function()
 	vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
 end
@@ -82,6 +132,7 @@ function M.config()
 
 	for _, server in pairs(servers) do
 		local opts = {
+			on_init = {},
 			on_attach = M.on_attach,
 			capabilities = require("blink.cmp").get_lsp_capabilities(),
 		}
@@ -92,17 +143,13 @@ function M.config()
 		end
 
 		if server == "eslint" then
-			opts.on_attach = function(client, bufnr)
-				M.on_attach(client, bufnr)
-				vim.api.nvim_create_autocmd("BufWritePre", {
-					buffer = bufnr,
-					command = "LspEslintFixAll",
-				})
-			end
+			eslint_format_on_save(opts)
 		end
 
 		vim.lsp.config(server, opts)
-		vim.lsp.enable(server)
+		if server ~= "jdtls" then
+			vim.lsp.enable(server)
+		end
 	end
 end
 
