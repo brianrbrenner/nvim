@@ -135,7 +135,6 @@ function M.config()
 		local opts = {
 			on_init = {},
 			on_attach = M.on_attach,
-			capabilities = require("blink.cmp").get_lsp_capabilities(),
 		}
 
 		local require_ok, settings = pcall(require, "brian.lspsettings." .. server)
