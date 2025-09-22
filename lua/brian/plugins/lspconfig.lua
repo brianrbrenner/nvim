@@ -105,7 +105,8 @@ function M.config()
 	local mason_only = {
 		"prettier",
 		"sonarlint-language-server",
-    "stylua",
+		"stylua",
+		"lombok-nightly",
 	}
 
 	local server_mason_pairs = {
@@ -146,10 +147,11 @@ function M.config()
 			eslint_format_on_save(opts)
 		end
 
-		vim.lsp.config(server, opts)
 		if server ~= "jdtls" then
-			vim.lsp.enable(server)
+			vim.lsp.config(server, opts)
 		end
+
+		vim.lsp.enable(server)
 	end
 end
 
