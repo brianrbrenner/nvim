@@ -3,7 +3,7 @@ return {
 	event = { "BufReadPost", "BufNewFile" },
 	dependencies = {
 		"windwp/nvim-ts-autotag",
-    "nvim-treesitter/nvim-treesitter-context",
+		"nvim-treesitter/nvim-treesitter-context",
 	},
 	build = ":TSUpdate",
 	config = function()
@@ -11,7 +11,7 @@ return {
 
 		configs.setup({
 			auto_install = true,
-			highlight = { enable = true },
+			highlight = { enable = true, disable = { "c", "cpp", "h", "rust", "lua", "zig" } },
 			indent = { enable = true },
 		})
 	end,

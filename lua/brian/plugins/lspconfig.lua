@@ -28,6 +28,8 @@ M.on_attach = function(client, bufnr)
 	if client:supports_method("textDocument/inlayHint") then
 		vim.lsp.inlay_hint.enable(true)
 	end
+
+	client.server_capabilities.semanticTokensProvider = nil
 end
 
 -- fix all on save using 0.11+ lspconfig
@@ -80,6 +82,21 @@ local function eslint_format_on_save(opts)
 	end
 end
 
+local function rust_analyzer_format_on_save(opts)
+	opts.on_init = function(client, _)
+		local bufnr = opts.bufnr or vim.api.nvim_get_current_buf()
+		vim.validate("bufnr", bufnr, "number")
+
+		vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+			group = vim.api.nvim_create_augroup("RustFormat", { clear = true }),
+			buffer = bufnr,
+			callback = function()
+				vim.lsp.buf.format({ bufnr = bufnr })
+			end,
+		})
+	end
+end
+
 M.toggle_inlay_hints = function()
 	vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
 end
@@ -122,6 +139,7 @@ function M.config()
 		tailwindcdd = "tailwindcss-language-server",
 		eslint = "eslint-lsp",
 		jdtls = "jdtls",
+		rust_analyzer = "rust-analyzer",
 	}
 
 	local servers = {}
@@ -147,11 +165,14 @@ function M.config()
 			eslint_format_on_save(opts)
 		end
 
-		if server ~= "jdtls" then
-			vim.lsp.config(server, opts)
+		if server == "rust_analyzer" then
+			rust_analyzer_format_on_save(opts)
 		end
 
-		vim.lsp.enable(server)
+		if server ~= "jdtls" then
+			vim.lsp.config(server, opts)
+			vim.lsp.enable(server)
+		end
 	end
 end
 

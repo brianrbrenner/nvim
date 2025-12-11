@@ -260,6 +260,7 @@ function M:setup()
 
 	-- Create the configuration table for the start or attach function
 	local config = {
+    name = "jdtls",
 		cmd = cmd,
 		root_dir = root_dir,
 		settings = settings,
