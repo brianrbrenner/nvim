@@ -68,11 +68,10 @@ return {
 		config = function()
 			vim.cmd([[colorscheme gruvbox-dark-hard]])
 			vim.o.background = "dark"
+      -- make variables white
+      vim.api.nvim_set_hl(0, "Identifier", { fg = d4d4d4 })
 			-- Less visible window separator
 			vim.api.nvim_set_hl(0, "WinSeparator", { fg = 1250067 })
-			-- Make comments more prominent -- they are important.
-			local bools = vim.api.nvim_get_hl(0, { name = "Boolean" })
-			vim.api.nvim_set_hl(0, "Comment", bools)
 			-- Make it clearly visible which argument we're at.
 			local marked = vim.api.nvim_get_hl(0, { name = "PMenu" })
 			vim.api.nvim_set_hl(
