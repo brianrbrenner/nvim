@@ -104,8 +104,8 @@ end
 function M.config()
 	local wk = require("which-key")
 	wk.add({
-		{ "<leader>lk", "<cmd>lua vim.diagnostic.goto_prev()<cr>", desc = "Prev Diagnostic" },
-		{ "<leader>lj", "<cmd>lua vim.diagnostic.goto_next()<cr>", desc = "Next Diagnostic" },
+		{ "<leader>lk", "<cmd>lua vim.diagnostic.jump({count=1, float=true})<cr>", desc = "Prev Diagnostic" },
+		{ "<leader>lj", "<cmd>lua vim.diagnostic.jump({count=-1, float=true})<cr>", desc = "Next Diagnostic" },
 		{ "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<cr>", desc = "Code Action" },
 		{
 			"<leader>lf",
@@ -113,7 +113,7 @@ function M.config()
 			desc = "Format",
 		},
 		{ "<leader>lh", "<cmd>lua require('brian.plugins.lspconfig').toggle_inlay_hints()<cr>", desc = "Hints" },
-		{ "<leader>li", "<cmd>LspInfo<cr>", desc = "Info" },
+		{ "<leader>li", "<cmd>checkhealth vim.lsp<cr>", desc = "Info" },
 		{ "<leader>ll", "<cmd>lua vim.lsp.codelens.run()<cr>", desc = "CodeLens Action" },
 		{ "<leader>lq", "<cmd>lua vim.diagnostic.setloclist()<cr>", desc = "Quickfix" },
 		{ "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>", desc = "Rename" },
@@ -127,19 +127,21 @@ function M.config()
 	}
 
 	local server_mason_pairs = {
-		clangd = "clangd",
-		lua_ls = "lua-language-server",
-		cssls = "css-lsp",
-		html = "html-lsp",
-		djlsp = "django-template-lsp",
-		basedpyright = "basedpyright",
-		bashls = "bash-language-server",
-		jsonls = "json-lsp",
-		yamlls = "yaml-language-server",
-		tailwindcdd = "tailwindcss-language-server",
-		eslint = "eslint-lsp",
-		jdtls = "jdtls",
+		clangd        = "clangd",
+		lua_ls        = "lua-language-server",
+		cssls         = "css-lsp",
+		html          = "html-lsp",
+		djlsp         = "django-template-lsp",
+		basedpyright  = "basedpyright",
+		bashls        = "bash-language-server",
+		jsonls        = "json-lsp",
+		yamlls        = "yaml-language-server",
+		tailwindcdd   = "tailwindcss-language-server",
+    mesonlsp      = "mesonlsp",
+		eslint        = "eslint-lsp",
+		jdtls         = "jdtls",
 		rust_analyzer = "rust-analyzer",
+    zls           = "zls"
 	}
 
 	local servers = {}

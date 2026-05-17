@@ -135,4 +135,3 @@ autocmd("VimLeavePre", {
 		end
 	end,
 })
-
