@@ -101,9 +101,10 @@ return {
 
 		local ignore_filetypes = {
 			"checkhealth",
-      "fidget",
       "blink-cmp-menu",
       "blink-cmp-documentation",
+      "fidget",
+      "flash-prompt",
       "fzf",
 			"lazy",
 			"mason",
